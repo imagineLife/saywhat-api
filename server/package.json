@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/imagineLife/saywhat-api/issues"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "homepage": "https://github.com/imagineLife/saywhat-api#readme",
   "dependencies": {
     "express": "^4.17.2"
