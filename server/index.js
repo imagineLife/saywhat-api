@@ -5,9 +5,16 @@ const express = require('express');
 const PORT = process.env.PORT || 3000;
 const STATIC_DIR = './static';
 
-const server = express();
-server.use(express.static(STATIC_DIR));
+const expressObj = express();
+expressObj.use(express.static(STATIC_DIR));
 
-server.listen(PORT, () => {
+const serverApp = expressObj.listen(PORT, () => {
   console.log(`http server listening on ${PORT}`)
+})
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server')
+  serverApp.close(() => {
+    console.log('HTTP server closed Gracefully')
+  })
 })
