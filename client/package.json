@@ -1,0 +1,21 @@
+{
+  "name": "saywhat-client",
+  "version": "0.0.1",
+  "description": "A Client-Side Consumer of the Say-What API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "speech",
+    "analysis",
+    "dashboard"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
