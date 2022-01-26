@@ -4,7 +4,7 @@
   "description": "A Client-Side Consumer of the Say-What API",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
