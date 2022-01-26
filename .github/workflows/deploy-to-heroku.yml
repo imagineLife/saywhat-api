@@ -1,8 +1,11 @@
+
 name: Deploy API To Heroku
 on:
   push:
     branches:
       - main
+    paths:
+      - 'server/**'
 
 jobs:
   build:
@@ -14,5 +17,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_API_NAME}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL_ADDR}}
-          # buildpack: "heroku/nodejs"
           appdir: "server"
