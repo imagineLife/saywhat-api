@@ -18,7 +18,7 @@ const { healthCheckHandler } = require('./routes')
 */ 
 const PORT = process.env.PORT || 3000;
 const STATIC_DIR = './static';
-
+console.log(`PROCESS PORT: ${process.env.PORT}`)
 
 
 
