@@ -1,6 +1,6 @@
 /*
 
-  dependencies
+  Dependencies
 
 */ 
 const express = require('express');
@@ -13,19 +13,20 @@ const { healthCheckHandler } = require('./routes')
 
 /*
 
-  vars
+  Variables
 
 */ 
 const PORT = process.env.PORT || 3000;
 const STATIC_DIR = './static';
 console.log(`PROCESS PORT: ${process.env.PORT}`)
+console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
 
 
 
 
 /*
 
-  server setup
+  Server Setup
 
 */ 
 const expressObj = express();
@@ -37,7 +38,7 @@ expressObj.use(express.static(STATIC_DIR));
 
 /*
 
-  endpoint registration
+  Endpoint Registration
 
 */ 
 expressObj.use('/health-check', healthCheckHandler)
@@ -48,8 +49,7 @@ expressObj.use('/health-check', healthCheckHandler)
 
 /*
 
-  server listen
-  + graceful shutdown
+  Server Listen && Graceful Shutdown
 
 */ 
 const serverApp = expressObj.listen(PORT, () => {
@@ -57,8 +57,7 @@ const serverApp = expressObj.listen(PORT, () => {
 })
 
 process.on('SIGTERM', () => {
-  console.log('SIGTERM signal received: closing HTTP server')
   serverApp.close(() => {
-    console.log('HTTP server closed Gracefully')
+    console.log('HTTP Graceful Shutdown')
   })
 })
