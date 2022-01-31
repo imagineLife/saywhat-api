@@ -1,5 +1,5 @@
 const GLOBAL_STATE = require('./state')
-const ServicesEmitter = require('./server-events');
+const ServicesEmitter = require('./events');
 
 module.exports = { 
   GLOBAL_STATE,
