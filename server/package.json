@@ -6,7 +6,7 @@
   "scripts": {
     "start": "PORT=3000 node .",
     "prod": "NODE_ENV=$NODE_ENV PORT=$PORT node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
