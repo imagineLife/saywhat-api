@@ -24,5 +24,9 @@
   "homepage": "https://github.com/imagineLife/saywhat-api#readme",
   "dependencies": {
     "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7",
+    "supertest": "^6.2.2"
   }
 }
