@@ -6,8 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const { healthCheckHandler } = require('./routes')
-const { GLOBAL_STATE, ServicesEmitter } = require('./global');
-
+const { GLOBAL_STATE, ServicesEmitter, routes: { DB, HEALTH_CHECK } } = require('./global');
 
 
 /*
@@ -36,15 +35,15 @@ expressObj.use(express.static(STATIC_DIR));
   Endpoint Registration
 
 */ 
-expressObj.use('/kill-db', async (req,res,nxt) => {
+expressObj.use(`${DB.ROOT}${DB.KILL}`, async (req,res,nxt) => {
   let emitterRes = await ServicesEmitter.emit('DB_DISCONNECT')
   res.status(200).send({DB_CONNECTED: GLOBAL_STATE.DB_CONNECTED})
 })
-expressObj.use('/restart-db', async (req,res,nxt) => {
+expressObj.use(`${DB.ROOT}${DB.RESTART}`, async (req,res,nxt) => {
   let emitterRes = await ServicesEmitter.emit('DB_CONNECT')
   res.status(200).send({DB_CONNECTED: GLOBAL_STATE.DB_CONNECTED})
 })
-expressObj.use('/health-check', healthCheckHandler)
+expressObj.use(HEALTH_CHECK, healthCheckHandler)
 
 
 
