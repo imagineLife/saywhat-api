@@ -28,7 +28,7 @@ async function stopServer(srvr){
   })
 }
 
-function startServer(srvr){
+async function startServer(srvr){
   process.on('SIGTERM', () => {
     stopServer(srvr)
   })
@@ -40,9 +40,7 @@ function startServer(srvr){
 
 if (require.main === module) {
   try{
-    startServer(expressObj).then(serverStartString => {
-      console.log(serverStartString)
-    })
+    startServer(expressObj)
   }catch(e){
     console.log('ERROR: ROOT CATCH')
     console.log(e)
