@@ -1,5 +1,5 @@
 const GLOBAL_STATE = {
-  DB_CONNECT:false
+  DB_CONNECTED:false
 }
 
 module.exports = GLOBAL_STATE;
