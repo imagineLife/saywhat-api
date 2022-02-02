@@ -8,18 +8,10 @@ const GLOBAL_STATE = require('./state');
 
 const ServicesEmitter = new EventEmitter()
 ServicesEmitter.on('DB_DISCONNECT', () => {
-  console.log('KILLING DB')
-  return new Promise((res, rej) => {
-    GLOBAL_STATE.DB_CONNECTED = false;
-    res()
-  })
+  GLOBAL_STATE.DB_CONNECTED = false;
 })
 ServicesEmitter.on('DB_CONNECT', () => {
-  console.log('RECONNECTING DB')
-  return new Promise((res, rej) => {
-    GLOBAL_STATE.DB_CONNECTED = true;
-    res()
-  })
+  GLOBAL_STATE.DB_CONNECTED = true;
 })
 
 module.exports = ServicesEmitter;
