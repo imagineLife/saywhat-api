@@ -6,12 +6,14 @@
 const { EventEmitter } = require("events");
 const GLOBAL_STATE = require('./state');
 
+function setConnected(val){
+  GLOBAL_STATE.DB_CONNECTED = val;
+}
 const ServicesEmitter = new EventEmitter()
-ServicesEmitter.on('DB_DISCONNECT', () => {
-  GLOBAL_STATE.DB_CONNECTED = false;
-})
-ServicesEmitter.on('DB_CONNECT', () => {
-  GLOBAL_STATE.DB_CONNECTED = true;
-})
+ServicesEmitter.on('DB_DISCONNECT', setConnected)
+ServicesEmitter.on('DB_CONNECT', setConnected)
 
-module.exports = ServicesEmitter;
+module.exports = {
+  ServicesEmitter,
+  setConnected
+};
