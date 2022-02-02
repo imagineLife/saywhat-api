@@ -6,7 +6,8 @@
   "scripts": {
     "start": "PORT=3000 node .",
     "prod": "NODE_ENV=$NODE_ENV PORT=$PORT node .",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,18 @@
     "express": "^4.17.2"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "jest": "^27.4.7"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 67.74,
+        "branches": 50,
+        "functions": 30.76,
+        "lines": 67.74
+      }
+    }
   }
 }
