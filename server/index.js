@@ -6,8 +6,10 @@ const { expressObj } = require('./express-setup');
 
 */ 
 const PORT = process.env.PORT || 3000;
-console.log(`PROCESS PORT: ${process.env.PORT}`)
-console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
+if(process.env !== 'test'){
+  console.log(`PROCESS PORT: ${process.env.PORT}`)
+  console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
+}
 
 
 
@@ -20,7 +22,9 @@ console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
 */ 
 // let serverApp;
 async function stopServer(srvr){
-  console.log('CLOSING SERVER')  
+  if(process.env !== 'test'){
+    console.log('CLOSING SERVER')  
+  }
   return await srvr.close(() => {
     if (require.main === module) {
       console.log('HTTP Graceful Shutdown')
@@ -34,7 +38,9 @@ function startServer(srvr){
   })
 
   return srvr.listen(PORT, () => {
-    console.log(`http server listening on ${PORT}`)
+    if(process.env !== 'test'){
+      console.log(`http server listening on ${PORT}`)
+    }
   })
 }
 
