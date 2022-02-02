@@ -1,5 +1,5 @@
 //Dependencies
-const {expressObj} = require('./express-setup');
+const { expressObj } = require('./express-setup');
 /*
 
   Variables
@@ -18,34 +18,38 @@ console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
   Server Listen && Graceful Shutdown
 
 */ 
-let serverApp;
-function stopServer(){
-  serverApp.close(() => {
-    console.log('HTTP Graceful Shutdown')
+// let serverApp;
+async function stopServer(srvr){
+  console.log('CLOSING SERVER')  
+  return await srvr.close(() => {
+    if (require.main === module) {
+      console.log('HTTP Graceful Shutdown')
+    }
   })
 }
 
-function startServer(){
-   return new Promise(resolve => {
-     serverApp = expressObj.listen(PORT, () => {
-       resolve(`http server listening on ${PORT}`);
-    })
-  });
-
+function startServer(srvr){
   process.on('SIGTERM', () => {
-    stopServer()
+    stopServer(srvr)
+  })
+
+  return srvr.listen(PORT, () => {
+    console.log(`http server listening on ${PORT}`)
   })
 }
 
-try{
-  startServer().then(serverStartString => {
-    console.log(serverStartString)
-  })
-}catch(e){
-  console.log('ERROR: ROOT CATCH')
-  console.log(e)
+if (require.main === module) {
+  try{
+    startServer(expressObj).then(serverStartString => {
+      console.log(serverStartString)
+    })
+  }catch(e){
+    console.log('ERROR: ROOT CATCH')
+    console.log(e)
+  }
 }
 
 module.exports = {
-  startServer
+  startServer,
+  stopServer
 };
