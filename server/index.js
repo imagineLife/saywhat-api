@@ -1,5 +1,6 @@
 //Dependencies
 const { expressObj } = require('./express-setup');
+const { twoAreEqual } = require('./helpers')
 /*
 
   Variables
@@ -22,7 +23,7 @@ console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
 async function stopServer(srvr){
   console.log('CLOSING SERVER')  
   return await srvr.close(() => {
-    if (require.main === module) {
+    if (twoAreEqual(require.main, module)) {
       console.log('HTTP Graceful Shutdown')
     }
   })
@@ -38,7 +39,7 @@ async function startServer(srvr){
   })
 }
 
-if (require.main === module) {
+if (twoAreEqual(require.main, module)) {
   try{
     startServer(expressObj)
   }catch(e){
@@ -49,5 +50,6 @@ if (require.main === module) {
 
 module.exports = {
   startServer,
-  stopServer
+  stopServer,
+  twoAreEqual
 };
