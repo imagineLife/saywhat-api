@@ -3,7 +3,8 @@ const routes = {
   DB: {
     KILL: '/kill',
     RESTART:'/restart',
-    ROOT: '/db'
+    ROOT: '/db',
+    STATUS: '/status'
   }
 }
 
