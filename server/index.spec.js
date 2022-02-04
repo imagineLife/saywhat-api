@@ -28,20 +28,6 @@ describe('Server index & server fns', () => {
       startServer(mockServer)
       expect(mockListen).toHaveBeenCalledTimes(1)
     })
-    it('registers SIGTERM handler', () => {
-      const mockListen = jest.fn();
-      let mockServer = {
-        listen: mockListen
-      }
-      processEvents = {};
-
-      process.on = jest.fn((signal, cb) => {
-        processEvents[signal] = cb;
-      });
-
-      startServer(mockServer)
-      expect(mockListen).toHaveBeenCalledTimes(1)
-    })
   })
 
   describe('stopServer ', () => {
