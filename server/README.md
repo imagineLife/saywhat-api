@@ -10,7 +10,8 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
   - [CRUD Text](#crud-text)
     - [Store Text](#store-text)
     - [Add Metadata to Text](#add-metadata-to-text)
-  - [Loggin](#loggin)
+  - [Logging](#logging)
+  - [Optimizing For Production](#optimizing-for-production)
 # Goals
 
 ## DB Dependent
@@ -58,4 +59,8 @@ As a user, I will be able to add "metadata", important attributes, to the text s
 - [ ] tags (_perhaps later on due to complexity of tag integration?!_)
 - [ ] more...
 
-## Loggin
+## Logging
+Incorporates a flexible logging solution.  
+
+## Optimizing For Production
+The API is setup to be "bundled" for a tiny code footprint.
