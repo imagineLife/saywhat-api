@@ -2,8 +2,7 @@
 const chai= require('chai');
 const chaiHttp= require('chai-http');
 const { DB } = require('./../../global/constants');
-const { expressObj } = require('./../../express-setup');
-const { startServer, stopServer } = require('./../../server-fns');
+const { startServer, stopServer, expressObj } = require('./../../server-setup');
 describe(DB.ROOT, function () {
   chai.use(chaiHttp);
   let localServerObj;

@@ -1,7 +1,9 @@
 //Dependencies
-const { expressObj } = require('./express-setup');
 const { twoAreEqual } = require('./helpers')
-const { startServer } = require('./server-fns')
+const { 
+  expressObj, 
+  startServer 
+} = require('./server-setup')
 
 console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
 

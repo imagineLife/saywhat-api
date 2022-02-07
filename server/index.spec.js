@@ -1,4 +1,4 @@
-const { startServer, stopServer, logIfTrue } = require('./server-fns')
+const { startServer, stopServer, logIfTrue } = require('./server-setup')
 describe('Server index & server fns', () => {
   jest.mock('./helpers');
   const { twoAreEqual } = require('./helpers');

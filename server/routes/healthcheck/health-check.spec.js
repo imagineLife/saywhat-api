@@ -2,8 +2,7 @@
 const chai= require('chai');
 const chaiHttp= require('chai-http');
 const { HEALTH_CHECK } = require('./../../global/constants');
-const { expressObj } = require('./../../express-setup');
-const { startServer, stopServer } = require('./../../server-fns');
+const { startServer, stopServer, expressObj } = require('./../../server-setup');
 describe(HEALTH_CHECK, function () {
   chai.use(chaiHttp);
   let localServerObj;
