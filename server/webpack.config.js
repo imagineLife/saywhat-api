@@ -12,7 +12,7 @@ module.exports = (env) => {
       path: path.resolve(__dirname, `dist${env?.mode === 'development' ? '/dev' : ''}`)
     },
     target: 'node',
-    // externals: [nodeExternals()],
+    externals: [nodeExternals()],
     mode: env?.mode || 'production'
   }
 }
