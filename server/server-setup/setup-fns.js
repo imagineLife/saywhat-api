@@ -1,6 +1,9 @@
 const { twoAreEqual } = require('./../helpers')
 const PORT = process.env.PORT || 3000;
-console.log(`PROCESS PORT: ${process.env.PORT}`)
+console.table({
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.NODE_ENV
+})
 
 function logIfTrue(a,b, logString){
   if (twoAreEqual(a,b)) {
