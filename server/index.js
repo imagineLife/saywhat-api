@@ -5,8 +5,6 @@ const {
   startServer 
 } = require('./server-setup')
 
-console.log(`PROCESS NODE_ENV: ${process.env.NODE_ENV}`)
-
 if (twoAreEqual(require.main, module)) {
   try{
     startServer(expressObj)
