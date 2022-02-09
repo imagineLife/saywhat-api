@@ -1,7 +1,8 @@
 const {
   makeConnectionString,
   connectDB,
-  getAndListDBs
+  getAndLogDBs,
+  closeDBConnection
 } = require('./')
 
 /*
@@ -76,7 +77,7 @@ describe('DB Setup', () => {
           const mockProps = {}
           mockProps.host = 'chicken';
           mockProps.port = 'gritz';
-          let EXPECTED_STR = `mongodb://${mockProps.host}:${mockProps.port}`
+          let EXPECTED_STR = `mongodb://${mockProps.host}:${mockProps.port}/?connectTimeoutMS=2500`
           expect(makeConnectionString(mockProps)).toBe(EXPECTED_STR)
         })
       })
@@ -95,6 +96,40 @@ describe('DB Setup', () => {
           expect(console.log).toHaveBeenCalledWith('connectDB fn error:')
           expect(console.log).toHaveBeenCalledWith('Cannot create db connection with missing param')
         })
+    })
+    describe('Connects & returns list of dbs', () => {
+      let mongoConnection;
+      const testConnection = {
+          host: 'localhost',
+          port: '27017'
+        }
+      beforeEach(async function(){
+        process.env.MONGO_AUTH = false;
+        try{
+          mongoConnection = await connectDB(testConnection);
+        }catch(e){
+          console.log('ERROR:');
+          console.log(e);
+        }
+      });
+
+      it('has internal state url matching connection params', () => {
+        // https://github.com/mongodb/node-mongodb-native/blob/a766f1c/src/mongo_client.ts#L324
+        expect(mongoConnection.s.url).toBe(`mongodb://${testConnection.host}:${testConnection.port}/?connectTimeoutMS=2500`)
+      })
+
+      it('returns list of dbs', async () => {
+        jest.spyOn(global.console, 'log')
+        await getAndLogDBs(mongoConnection)
+        // including previous test counts :/
+        expect(console.log).toHaveBeenCalledTimes(3)
+      })
+
+      afterEach(async function(){
+        if(mongoConnection){
+          await closeDBConnection(mongoConnection);
+        }
+      });
     })
   })
 })
