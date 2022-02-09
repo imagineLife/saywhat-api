@@ -7,6 +7,7 @@ function makeConnectionString({
   port,
   authDB
 }){
+  // Error Handling
   if(typeof host === 'undefined' ||
     typeof port === 'undefined'){
       throw 'Cannot create db connection with missing param';
@@ -22,14 +23,14 @@ function makeConnectionString({
 
   // no auth?!
   if(process?.env?.MONGO_AUTH?.toString() === 'false'){
-    return `mongodb://${host}:${port}`;  
+    return `mongodb://${host}:${port}/?connectTimeoutMS=2500`;
   }
 
   //auth'd
   return `mongodb://${username}:${pw}@${host}:${port}/?authSource=${authDB}`;
 }
 
-async function getAndListDBs(mongoClient) {
+async function getAndLogDBs(mongoClient) {
     databasesList = await mongoClient.db().admin().listDatabases();
     const { databases } = databasesList
     console.table(databases)
@@ -40,17 +41,22 @@ async function connectDB(connectionParams) {
     const uriStr = makeConnectionString(connectionParams)
     const mongoClient = new MongoClient(uriStr);
     await mongoClient.connect();
-    await getAndListDBs(mongoClient);
+    // await getAndLogDBs(mongoClient);
       
-    return true;
+    return mongoClient;
   } catch (e) {
     console.log(`connectDB fn error:`)
     console.log(e);
   }
 }
 
+async function closeDBConnection(mongoClient){
+  return await mongoClient.close()
+}
+
 module.exports = {
   makeConnectionString,
   connectDB,
-  getAndListDBs
+  getAndLogDBs,
+  closeDBConnection
 }
