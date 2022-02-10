@@ -1,8 +1,9 @@
 const { twoAreEqual } = require('./../helpers')
 const PORT = process.env.PORT || 3000;
+console.log('----startup env vars----')
 console.table({
   NODE_ENV: process.env.NODE_ENV,
-  PORT: process.env.NODE_ENV
+  PORT: process.env.PORT
 })
 
 function logIfTrue(a,b, logString){
@@ -21,7 +22,7 @@ async function startServer(srvr){
   })
 
   return srvr.listen(PORT, () => {
-    console.log(`http server listening on ${PORT}`)
+    console.log(`SERVER: http server listening on ${PORT}`)
   })
 }
 
