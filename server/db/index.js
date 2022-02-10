@@ -10,6 +10,8 @@ function makeConnectionString({
   // Error Handling
   if(typeof host === 'undefined' ||
     typeof port === 'undefined'){
+      console.log(`missing vars: host: ${host}, port: ${port}`)
+      
       throw 'Cannot create db connection with missing param';
     }
   if(
@@ -18,6 +20,7 @@ function makeConnectionString({
     !pw ||
     !authDB)
   ){
+    console.log(`Expected auth connection to db`)
     throw 'Cannot create db connection with missing param';
   }
 
@@ -41,8 +44,7 @@ async function connectDB(connectionParams) {
     const uriStr = makeConnectionString(connectionParams)
     const mongoClient = new MongoClient(uriStr);
     await mongoClient.connect();
-    // await getAndLogDBs(mongoClient);
-      
+    console.log('SERVER: Connected to mongo db!')
     return mongoClient;
   } catch (e) {
     console.log(`connectDB fn error:`)
