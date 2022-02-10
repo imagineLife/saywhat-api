@@ -121,8 +121,8 @@ describe('DB Setup', () => {
       it('returns list of dbs', async () => {
         jest.spyOn(global.console, 'log')
         await getAndLogDBs(mongoConnection)
-        // including previous test counts :/
-        expect(console.log).toHaveBeenCalledTimes(3)
+        // including previous test & code log counts :/
+        expect(console.log).toHaveBeenCalledTimes(6)
       })
 
       afterEach(async function(){
