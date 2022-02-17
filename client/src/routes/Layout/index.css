@@ -1,0 +1,152 @@
+:root{
+	--gray-border: rgb(113,117,119);
+	--c1: rgb(110,64,170);
+	--c2: rgb(150,61,179);
+	--c3: rgb(191,60,175);
+	--c4: rgb(228,65,157);
+	--c5: rgb(254,75,131);
+	--c6: rgb(255,94,99);
+	--c7: rgb(255,120,71);
+	--c8: rgb(251,150,51);
+	--c9: rgb(226,183,47);
+	--c10: rgb(198,214,60);
+	--c11: rgb(175,240,91);
+};
+
+#layout{
+	min-width: 950px;
+}
+
+.i-b{
+	display: inline-block;
+}
+
+#layout div{
+	vertical-align: top;
+	float: left;
+	border: 1px dotted rgb(120,120,120);
+	padding: 5px;
+}
+
+#layout div#title-box{
+	height: 150px;
+	position: relative;
+}
+
+#layout div#title-box .title-text-wrapper{
+	width: 100%;
+}
+
+#layout div#title-box .title-data{
+	width: calc(100% - 10px);
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+}
+
+#layout div#title-box .title{
+  font-size: 3.5rem;
+  font-family: Comfortaa-Bold, sans-serif;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/*#layout div#title-box .title-text-wrapper{
+
+}*/
+
+#layout div .corner-box{
+  border: 1px solid rgb(120,120,120);
+  position: absolute;
+  top: 19px;
+  right: 15px;
+  width: 175px;
+  font-size: .75em;
+  text-align: center;
+  padding: 9px;
+}
+
+.sub-title{
+	margin: 0 10px;
+	font-size: .75rem;
+	text-transform: uppercase;
+}
+
+#layout div#area-box{
+	height: 100px;
+}
+
+#layout div#focus-area-box{
+	height: 315px;
+}
+
+#layout div#focus-area-box #focus-area-hover{
+	height: 200px;
+	width: 100%;
+}
+
+#layout div#area-explain-box{
+	height: 75px;
+}
+
+#layout div#theme-box{
+	height: 350px;
+}
+
+#layout div#image-box{
+	height: 350px;
+	position: relative;
+}
+
+.image-sub{
+	bottom: 0;
+}
+
+#layout div#words-of-interest-box{
+	height: 385px;
+	margin-top: -110px;
+}
+
+#layout div#words-by-length-box{
+	height: 275px;
+}
+
+#layout div#divider-box{
+	height: 50px;
+}
+
+#layout div#divider-box p{
+	width: 100%;
+	text-align: center;
+	line-height: 47px;
+}
+
+#layout div#text-display-box{
+	height: 500px;
+	overflow-x: scroll;
+}
+
+#layout div#text-display-box p.text-content{
+	line-height: 2.3;
+	columns: 2;
+	column-rule: 1px solid rgb(130, 130, 130);
+	column-gap: 20px;
+	overflow-x: scroll;
+	max-height: 480px;
+}
+
+.image-subtext, .section-text{
+	text-transform: uppercase;
+  font-size: 1.6em;
+  text-align: center;
+  width: 100%;
+}
+
+.image-subtext{
+	position: absolute;
+	bottom: 0;
+}
+
+.explanatory-text{
+	font-size: .85em
+}
