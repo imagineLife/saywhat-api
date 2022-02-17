@@ -6,3 +6,5 @@ const Header = (): JSX.Element => (
 )
 
 ReactDOM.render(<Header />, document.getElementById("root"));
+
+export default Header;
