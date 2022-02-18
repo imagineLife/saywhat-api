@@ -1,8 +1,8 @@
 import React from "react"
 import { BrowserRouter as Router,
-  Switch,
-  Route, 
-  Redirect } from "react-router-dom";
+  Routes,
+  Route } from "react-router-dom";
+  // Redirect
 // import './index.css';
 
 const Together = React.lazy(() =>  import('./routes/Together/ContextWrapper'))
@@ -15,13 +15,15 @@ const ThisRouter = (): JSX.Element => {
     <React.Suspense fallback={<div>loading...</div>}>
         <div id="parent-div" className={`${themeClass}`}>
           <Router>
-            <Route path="/dashboardUI">
-              <DashboardUI />
-            </Route>
-            <Route path="/">  
-              <Together />
+            <Routes>
+              <Route path="/dashboardUI">
+                <DashboardUI />
               </Route>
-            <Redirect from="/*" to="/" noThrow/>
+              <Route path="/">  
+                <Together />
+              </Route>
+              {/* <Route path="/*" render={() => <Redirect to="/" noThrow/>} /> */}
+              </Routes>
           </Router>
         </div>
     </React.Suspense>
