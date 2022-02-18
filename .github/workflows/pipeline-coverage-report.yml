@@ -1,4 +1,4 @@
-name: 'pipeline coverage report'
+name: 'API pipeline coverage report'
 on:
   pull_request:
     branches:
@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'server/*'
 jobs:
   coverage:
     runs-on: ubuntu-latest
