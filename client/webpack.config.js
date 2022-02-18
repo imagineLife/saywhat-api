@@ -1,5 +1,6 @@
 const HtmlPlugin = require("html-webpack-plugin");
 const path = require("path");
+const ForkTSChecker = require('fork-ts-checker-webpack-plugin');
 
 module.exports = (env, args) => {
   const config = {
@@ -7,21 +8,27 @@ module.exports = (env, args) => {
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          loader: "ts-loader",
-          options: {
-            configFile: path.resolve(__dirname, "./.tsconfig"),
-          },
-        },
-        {
-          test: /\.js$/,
+          test: /\.(j|t)sx?$/,
           exclude: /node_modules/,
           use: {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/react"],
-            },
-          },
+              cacheDirectory: true,
+              babelrc: false,
+              presets: [
+                [
+                  "@babel/preset-env",
+                  { targets: { browsers: "last 2 versions" } } // or whatever your project requires
+                ],
+                "@babel/preset-typescript",
+                "@babel/preset-react"
+              ],
+              plugins: [
+                ["@babel/plugin-proposal-class-properties", { loose: true }],
+                "react-hot-loader/babel"
+              ]
+            }
+          }
         },
         {
           test: /\.html$/,
@@ -53,6 +60,11 @@ module.exports = (env, args) => {
         template: "./src/index.html",
         filename: "./index.html",
       }),
+      new ForkTSChecker({
+        typescript: {
+          configFile: '.tsconfig'
+        }
+      })
     ],
   };
   return config;
