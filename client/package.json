@@ -7,7 +7,8 @@
     "build": "webpack --env mode=production",
     "lint": "eslint src/",
     "start": "webpack serve --env mode=development --port 1234",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "react",
@@ -65,9 +66,14 @@
     "webpack-dev-server": "^4.7.4"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/enzyme.setup.js"
-    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 86.84,
+        "branches": 82.52,
+        "lines": 87.09,
+        "functions": 80.7
+      }
+    },
     "moduleNameMapper": {
       "\\.(css|less|svg|jpg)$": "<rootDir>/src/__mocks__/styleMock.js",
       "d3-array": "<rootDir>/node_modules/d3-array/dist/d3-array.min.js",
@@ -81,6 +87,9 @@
       "d3-shape": "<rootDir>/node_modules/d3-shape/dist/d3-shape.min.js",
       "d3-time": "<rootDir>/node_modules/d3-time/dist/d3-time.min.js"
     },
+    "setupFilesAfterEnv": [
+      "<rootDir>/enzyme.setup.js"
+    ],
     "testEnvironment": "jsdom"
   }
 }
