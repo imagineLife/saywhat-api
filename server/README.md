@@ -12,6 +12,8 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
     - [Add Metadata to Text](#add-metadata-to-text)
   - [Logging](#logging)
   - [Optimizing For Production](#optimizing-for-production)
+- [Working With the Code](#working-with-the-code)
+  - [Testing](#testing)
 # Goals
 
 ## DB Dependent
@@ -64,3 +66,7 @@ Incorporates a flexible logging solution.
 
 ## Optimizing For Production
 The API is setup to be "bundled" for a tiny code footprint.
+
+# Working With the Code
+## Testing
+Testing the api requires a connection to a mongo database on `localhost:27017`.  
