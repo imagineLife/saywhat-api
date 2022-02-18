@@ -1,0 +1,30 @@
+name: 'API pipeline'
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/*'
+jobs:
+  api-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: '4.2'
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          working-directory: server
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: ["api-coverage"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_API_NAME}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL_ADDR}}
+          appdir: "server"
