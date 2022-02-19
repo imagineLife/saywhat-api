@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
-const { MONGO_CLIENT } = require('./../global/state')
+const { GLOBAL_STATE } = require('./../global')
+
 function makeConnectionString({
   username,
   pw,
@@ -40,11 +41,15 @@ async function getAndLogDBs(mongoClient) {
 };
 
 async function connectDB(connectionParams) {
+  console.log('Connecting to db')
+  
   try {
     const uriStr = makeConnectionString(connectionParams)
     const mongoClient = new MongoClient(uriStr);
     await mongoClient.connect();
+    GLOBAL_STATE.DB_CONNECTED = true;
     console.log('SERVER: Connected to mongo db!')
+
     return mongoClient;
   } catch (e) {
     console.log(`connectDB fn error:`)
