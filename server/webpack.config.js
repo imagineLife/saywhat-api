@@ -8,7 +8,7 @@ module.exports = (env) => {
   return {
     entry: './index.js',
     output: {
-      filename: 'server-bundle.js',
+      filename: 'index.js',
       path: path.resolve(__dirname, `dist${env?.mode === 'development' ? '/dev' : ''}`)
     },
     target: 'node',
