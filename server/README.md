@@ -12,6 +12,9 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
     - [Add Metadata to Text](#add-metadata-to-text)
   - [Logging](#logging)
   - [Optimizing For Production](#optimizing-for-production)
+  - [Using With Docker](#using-with-docker)
+    - [Dev](#dev)
+    - [Prod](#prod)
 - [Working With the Code](#working-with-the-code)
   - [Testing](#testing)
 # Goals
@@ -67,6 +70,23 @@ Incorporates a flexible logging solution.
 ## Optimizing For Production
 The API is setup to be "bundled" for a tiny code footprint.
 
+## Using With Docker
+This server can be run a few different ways as a "containerized" service: one way in a more dev-friendly setup and one way in a more prod-like setup. 
+
+### Dev
+A dev image can be built & run as a container using the `dev.Dockerfile`. To build this image (_with docker installed & running on your machine_)
+- cd into the server dir
+- run `docker build -t dev-server -f dev.Dockerfile .`: this will build a dev-friendly image tagged "dev-server"
+- run `docker run --rm -p 3000:3000 -v ${PWD}:/server qwer`: this will run the image as a container
+This image is dev friendly with these 2 details, specifically:  
+- uses [`nodemon`](https://www.npmjs.com/package/nodemon), which includes "hot-reloading" for faster server development
+
+### Prod
+
+
+
+
 # Working With the Code
 ## Testing
 Testing the api requires a connection to a mongo database on `localhost:27017`.  
+
