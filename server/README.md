@@ -14,6 +14,7 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
   - [Optimizing For Production](#optimizing-for-production)
   - [Using With Docker](#using-with-docker)
     - [Dev](#dev)
+    - [Dev with an authenticated Mongo Instance](#dev-with-an-authenticated-mongo-instance)
     - [Prod](#prod)
 - [Working With the Code](#working-with-the-code)
   - [Testing](#testing)
@@ -80,6 +81,10 @@ A dev image can be built & run as a container using the `dev.Dockerfile`. To bui
 - run `docker run --rm -p 3000:3000 -v ${PWD}:/server qwer`: this will run the image as a container
 This image is dev friendly with these 2 details, specifically:  
 - uses [`nodemon`](https://www.npmjs.com/package/nodemon), which includes "hot-reloading" for faster server development
+
+### Dev with an authenticated Mongo Instance
+A dev image and a mongo image can both be started with a docker-compose setup.  
+One way to run this is to run from the command line `docker-compose -f dev.docker-compose.yml up --build`.  
 
 ### Prod
 
