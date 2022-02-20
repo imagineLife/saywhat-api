@@ -4,21 +4,28 @@ const {
   expressObj, 
   startServer 
 } = require('./server-setup')
-const { connectDB } = require('./db')
+const { ServicesEmitter } = require('./global')
+const { setupDB } = require('./db')
 
-if (twoAreEqual(require.main, module)) {
+async function startApi(){
   try{
     startServer(expressObj)
-    // connectDB({
-    //   username: process.env.MONGO_DB_USER,
-    //   pw: process.env.MONGO_DB_PW,
-    //   host: process.env.MONGO_DB_HOST,
-    //   port: process.env.MONGO_DB_PORT,
-    //   authDB: process.env.MONGO_DB_AUTH_DB
-    // })
+    if(!process.env.DB || process.env.DB === true){
+      await setupDB({
+        username: process.env.MONGO_DB_USER,
+        pw: process.env.MONGO_DB_PW,
+        host: process.env.MONGO_DB_HOST,
+        port: process.env.MONGO_DB_PORT,
+        authDB: process.env.MONGO_DB_AUTH_DB
+      })
+    }
   }catch(e){
     console.log(e)
   }
+}
+
+if (twoAreEqual(require.main, module)) {
+  startApi()
 }
 
 module.exports = {
