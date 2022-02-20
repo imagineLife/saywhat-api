@@ -1,6 +1,6 @@
 const {
   makeConnectionString,
-  connectDB,
+  setupDB,
   getAndLogDBs,
   closeDBConnection
 } = require('./')
@@ -83,7 +83,7 @@ describe('DB Setup', () => {
       })
     })
   })
-  describe('connectDB', () => {
+  describe('setupDB', () => {
     describe('logs error strings without expected connection param', () => {
       beforeEach(() => {
           delete process.env.MONGO_AUTH;
@@ -92,8 +92,8 @@ describe('DB Setup', () => {
           jest.spyOn(global.console, 'log')
           const mockProps = {}
           mockProps.port = '27017';
-          connectDB(mockProps)
-          expect(console.log).toHaveBeenCalledWith('connectDB fn error:')
+          setupDB(mockProps)
+          expect(console.log).toHaveBeenCalledWith('setupDB fn error:')
           expect(console.log).toHaveBeenCalledWith('Cannot create db connection with missing param')
         })
     })
@@ -106,7 +106,7 @@ describe('DB Setup', () => {
       beforeEach(async function(){
         process.env.MONGO_AUTH = false;
         try{
-          mongoConnection = await connectDB(testConnection);
+          mongoConnection = await setupDB(testConnection);
         }catch(e){
           console.log('ERROR:');
           console.log(e);

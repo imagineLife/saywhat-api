@@ -40,19 +40,21 @@ async function getAndLogDBs(mongoClient) {
     console.table(databases)
 };
 
-async function connectDB(connectionParams) {
+async function setupDB(connectionParams) {
   console.log('Connecting to db')
   
   try {
+    // Connect
     const uriStr = makeConnectionString(connectionParams)
     const mongoClient = new MongoClient(uriStr);
     await mongoClient.connect();
+
+    // store 
     GLOBAL_STATE.DB_CONNECTED = true;
     console.log('SERVER: Connected to mongo db!')
-
     return mongoClient;
   } catch (e) {
-    console.log(`connectDB fn error:`)
+    console.log(`setupDB fn error:`)
     console.log(e);
   }
 }
@@ -63,7 +65,7 @@ async function closeDBConnection(mongoClient){
 
 module.exports = {
   makeConnectionString,
-  connectDB,
+  setupDB,
   getAndLogDBs,
   closeDBConnection
 }
