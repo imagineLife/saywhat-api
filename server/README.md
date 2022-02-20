@@ -18,6 +18,8 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
     - [Prod](#prod)
 - [Working With the Code](#working-with-the-code)
   - [Testing](#testing)
+    - [Requires MongoDB Connection](#requires-mongodb-connection)
+    - [Leverage NPM Test Scripts](#leverage-npm-test-scripts)
 # Goals
 
 ## DB Dependent
@@ -93,5 +95,14 @@ One way to run this is to run from the command line `docker-compose -f dev.docke
 
 # Working With the Code
 ## Testing
-Testing the api requires a connection to a mongo database on `localhost:27017`.  
+### Requires MongoDB Connection
+Testing the api requires a connection to a mongo database on `localhost:27017`. Assure a mongo instance is up, running, and available through `localhost:27017`.  
+One way to setup a mongo instance could be to use docker with:  
+`docker run -p 27017:27017 --rm mongo:5.0.2`.  
+### Leverage NPM Test Scripts
+With a mongo instance available, leverage a few npm scripts:  
+- **`npm run test`**: runs the tests
+- **`npm run test:coverage`**: runs the tests and prints a code-coverage result in the terminal (_configured with [jest](https://jestjs.io/) and jest's [code coverage threshold config](https://jestjs.io/docs/configuration#coveragethreshold-object)_)
+
+
 
