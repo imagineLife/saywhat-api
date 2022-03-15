@@ -13,7 +13,7 @@ import {
   convertStrToWordArr,
   ingWords
 } from '../../lib/stats';
-import { sortByWordAlpha } from './helpers'
+import { sortByWordAlpha } from './helpers.ts'
 
 // State
 import reducer from './reducer';
