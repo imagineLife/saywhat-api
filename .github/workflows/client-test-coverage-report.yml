@@ -1,9 +1,5 @@
 name: 'Client pipeline coverage report'
 
-defaults:
-  run:
-    working-directory: client
-
 on:
   pull_request:
     branches:
@@ -15,9 +11,16 @@ on:
       - 'client/*'
 jobs:
   coverage:
+
+    defaults:
+      run:
+        working-directory: client
+        
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
 
       # run tests + output coverage
       - uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          working-directory: client
