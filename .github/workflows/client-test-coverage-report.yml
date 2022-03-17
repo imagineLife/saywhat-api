@@ -34,8 +34,7 @@ jobs:
         uses: actions/cache@v1
         with:
           # OS-dependent + package-manager dependent path val
-          # NPM Cache docs:
-          #   https://docs.npmjs.com/cli/v7/configuring-npm/folders#cache
+          # NPM Cache docs: https://docs.npmjs.com/cli/v7/configuring-npm/folders
           path: ~/.npm
           # key docs: https://github.com/actions/cache#creating-a-cache-key
           #   os type
