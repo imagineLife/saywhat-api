@@ -16,12 +16,12 @@ on:
 jobs:
 
   lint:
-        
     runs-on: ubuntu-latest
-
     steps:
+      # Checkout the code
       - uses: actions/checkout@v2
 
+      # Optional, better to specify here
       - name: Specify Node Version
         uses: actions/setup-node@v1
         with:
@@ -48,9 +48,9 @@ jobs:
           # must be regex matching or something
           restore-keys:  | 
             ${{runner.os}}-node-mods-
+          # once workflow is done, github caches the hashed package-lock with the key :) 
+          #   a post cache step gets added to the workflow by this action lib
 
-      # once workflow is done, github caches the hashed package-lock with the key :) 
-      #   a post cache step gets added to the workflow by this action lib
       # install mods 
       - run: npm i
 
