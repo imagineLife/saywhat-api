@@ -1,5 +1,9 @@
 name: 'Client pipeline'
 
+defaults:
+  run:
+    working-directory: client
+    
 on:
   pull_request:
     branches:
@@ -10,11 +14,8 @@ on:
     paths:
       - 'client/*'
 jobs:
-  lint:
 
-    defaults:
-      run:
-        working-directory: client
+  lint:
         
     runs-on: ubuntu-latest
 
