@@ -99,8 +99,15 @@ jobs:
       - run: npm i
 
       # 
-      # test && upload coverage artifacts 
-      # docs: https://github.com/actions/upload-artifact
+      # test 
+      #   
+      - run: npm run test -- --coverage
+        # env for create-react-app test interpretation
+        env:
+          CI: true
+
+      # 
+      # upload test coverage artifacts docs: https://github.com/actions/upload-artifact
       # 
       - name: Upload Test Coverage Artifact 
         uses: actions/upload-artifact@v1
