@@ -60,6 +60,11 @@ module.exports = (env, args) => {
         {
           test: /\.(png|jpg|gif|svg)$/i,
           type: 'asset/resource'
+        },
+        // txt file
+        {
+          test: /\.txt/,
+          type: 'asset/source',
         }
       ],
     },
