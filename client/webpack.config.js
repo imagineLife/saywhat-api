@@ -5,6 +5,7 @@ const ForkTSChecker = require('fork-ts-checker-webpack-plugin');
 module.exports = (env, args) => {
   const config = {
     mode: env.mode,
+    entry: ["regenerator-runtime/runtime.js","./src/index.tsx"],
     module: {
       rules: [
         {
@@ -40,7 +41,7 @@ module.exports = (env, args) => {
           ],
         },
         {
-          test: /\.s[ac]ss$/i,
+          test: /\.[s]?[ac]ss/i,
           use: [
             // Creates `style` nodes from JS strings
             "style-loader",
@@ -50,6 +51,16 @@ module.exports = (env, args) => {
             "sass-loader",
           ],
         },
+        // json 
+        {
+          test: /\.(geo|topo)json$/,
+          loader: 'json-loader'
+        },
+        // files (non-svg-images)
+        {
+          test: /\.(png|jpg|gif|svg)$/i,
+          type: 'asset/resource'
+        }
       ],
     },
     resolve: {
