@@ -1,10 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import Router from "./Router";
 
-const Header = (): JSX.Element => (
-  <h1>Text Here</h1>
-)
-
-ReactDOM.render(<Header />, document.getElementById("root"));
-
-export default Header;
+ReactDOM.render(<Router />, document.getElementById("root"));
