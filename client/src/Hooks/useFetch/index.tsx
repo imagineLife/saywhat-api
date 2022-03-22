@@ -2,42 +2,42 @@ import { useEffect, useReducer } from 'react';
 import fetchReducer, { 
   SET_LOADING, 
   SET_DATA, 
-  SET_ERROR
+  SET_ERROR,
+  FetchReducerStateType
 } from './reducer';
 
 const initialFetchState = {
-  data: null,
-  loading: null,
-  error: null
+  data: false,
+  loading: false,
+  error: false
 }
 
-function useFetch(url): void {
+
+  
+function useFetch(url: string): FetchReducerStateType {
   const [{data, loading, error}, dispatch] = useReducer(fetchReducer, initialFetchState);
   let fetchCancelled = false;
   useEffect(() => {
-    async function getData(): void{
+    // declaring the async fn
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const getData = async (urlParam: string, cancelled: boolean): Promise<any> => {
       try{
-        const res = await fetch(url, { signal })
-        console.log('res')
-        console.log(res)
-        
+        const res = await fetch(urlParam)
         const jsonRes = await res.json();
-        console.log('jsonRes')
-        console.log(jsonRes)
-        
-        if(!fetchCancelled){
+        if(!cancelled){
           dispatch({type: SET_DATA, payload: jsonRes})
         }
       }catch(err){
-        console.warn(`useFetch error on url ${url}`)
-        console.log(err)
-        dispatch({type: SET_ERROR, payload: err})
+        console.warn(`useFetch error on url ${urlParam}`)
+        console.log(err.message)
+        dispatch({type: SET_ERROR, payload: 'api error'})
       }
     }
 
+
     if(url){
       dispatch({type: SET_LOADING });
-      getData()
+      getData(url, fetchCancelled)
     }
 
     return () => {
