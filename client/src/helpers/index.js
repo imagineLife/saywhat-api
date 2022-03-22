@@ -1,3 +1,4 @@
-import waitForComponentToPaint from './waitForComponentToPaint';
+import updateComponentWithAct from './updateComponentWithAct';
 
-export { waitForComponentToPaint };
+// eslint-disable-next-line import/prefer-default-export
+export { updateComponentWithAct };
