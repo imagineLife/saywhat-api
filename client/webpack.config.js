@@ -25,7 +25,7 @@ module.exports = (env, args) => {
                 "@babel/preset-react"
               ],
               plugins: [
-                ["@babel/plugin-proposal-class-properties", { loose: true }],
+                ["@babel/plugin-proposal-class-properties", { loose: false }],
                 "react-hot-loader/babel"
               ]
             }
@@ -78,7 +78,7 @@ module.exports = (env, args) => {
       }),
       new ForkTSChecker({
         typescript: {
-          configFile: '.tsconfig'
+          configFile: 'tsconfig.json'
         }
       })
     ],
