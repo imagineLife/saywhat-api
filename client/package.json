@@ -42,6 +42,8 @@
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.22",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
@@ -51,6 +53,7 @@
     "enzyme-to-json": "^3.6.2",
     "eslint": "^8.9.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^16.1.4",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
@@ -87,11 +90,15 @@
       "d3-scale": "<rootDir>/node_modules/d3-scale/dist/d3-scale.min.js",
       "d3-selection": "<rootDir>/node_modules/d3-selection/dist/d3-selection.min.js",
       "d3-shape": "<rootDir>/node_modules/d3-shape/dist/d3-shape.min.js",
-      "d3-time": "<rootDir>/node_modules/d3-time/dist/d3-time.min.js"
+      "d3-time": "<rootDir>/node_modules/d3-time/dist/d3-time.min.js",
+      "data/fullText.txt": "<rootDir>/data/fullText.txt"
     },
     "setupFilesAfterEnv": [
-      "<rootDir>/enzyme.setup.js"
+      "<rootDir>/test-setup/enzyme.setup.js",
+      "<rootDir>/test-setup/jest.setup.js"
     ],
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "automock": false,
+    "resetMocks": false
   }
 }
