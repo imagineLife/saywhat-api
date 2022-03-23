@@ -1,8 +1,8 @@
 const HtmlPlugin = require("html-webpack-plugin");
-const path = require("path");
 const ForkTSChecker = require('fork-ts-checker-webpack-plugin');
+// const path = require("path");
 
-module.exports = (env, args) => {
+module.exports = (env) => {
   const config = {
     mode: env.mode,
     entry: ["regenerator-runtime/runtime.js","./src/index.tsx"],
