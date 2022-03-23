@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import * as scale from 'd3-scale';
 import * as d3Arr from 'd3-array';
 import * as d3Shape from 'd3-shape';
-import * as d3Select from 'd3-selection';
+import {select} from 'd3-selection';
 import * as brush from 'd3-brush';
 import './index.css';
 
@@ -26,7 +26,7 @@ const SelectableArea = ({ onMove, dims }) => {
 		called 'onBrush'
 	*/
   const brushedFn = () => {
-    const selectedPixels = d3Select.event.selection;
+    const selectedPixels = select.event.selection;
     const scaledBegin = Math.floor(translateScale(selectedPixels[0]));
     const scaledEnd = Math.floor(translateScale(selectedPixels[1]));
     setHoverArr(selectedPixels);
@@ -65,7 +65,7 @@ const SelectableArea = ({ onMove, dims }) => {
 
       // set the brushFn to the burshBox, 'instantiating'
       // the brush UI element(s)
-      const thisBrushBox = d3Select.select(brushRef.current);
+      const thisBrushBox = select.select(brushRef.current);
       setTimeout(() => {
         thisBrushBox.call(thisBrushFN);
 
