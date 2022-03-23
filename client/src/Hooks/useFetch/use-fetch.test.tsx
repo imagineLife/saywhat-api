@@ -7,8 +7,8 @@ import useFetch from ".";
 import { updateComponentWithAct } from "../../helpers"
 import * as fetchReducer from './reducer'
 
-function setupFetchStub(data: {juice: string}) {
-  return function fetchStub(_url) {
+function setupFetchStub(data: {juice: string}){
+  return function fetchStub() {
     return new Promise((resolve) => {
       resolve({
         json: () =>
@@ -60,7 +60,7 @@ describe('useFetch', () => {
   describe('calls dispatch when url is present', () => { 
     beforeAll(() => {
       jest.spyOn(fetchReducer, 'default')
-      jest.spyOn(global, "fetch").mockImplementationOnce(setupFetchStub({'juice': 'box'}))
+      // jest.spyOn(global, "fetch").mockImplementationOnce(setupFetchStub({'juice': 'box'}))
     })
 
     const thisC = mount(<FetchUseComponent />)
@@ -87,7 +87,7 @@ describe('useFetch', () => {
   describe('dispatches error with bad fetch reply', () => { 
     const errorComponent = mount(<FetchUseComponent />)
     it('dispatches error', async () => { 
-      jest.spyOn(global, "fetch").mockImplementationOnce(() => 'water')
+      // jest.spyOn(global, "fetch").mockImplementationOnce((cb) => cb(null, 'water'))
 
       await act(async () => {
         errorComponent.find('#set-url').simulate('click');
