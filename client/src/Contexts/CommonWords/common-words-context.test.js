@@ -9,7 +9,7 @@ import noData from './no-data.json';
 import mockDisplayText from './mock-display-text'
 
 // helper
-import { waitForComponentToPaint } from '../../helpers'
+import { updateComponentWithAct } from '../../helpers'
 
 describe('CommonWords Context', () => {
   
@@ -40,7 +40,7 @@ describe('CommonWords Context', () => {
         </CommonWordsProvider>
       </TextAreaContext.Provider>
     );
-    waitForComponentToPaint(emptyComponent);
+    updateComponentWithAct(emptyComponent);
 
     it('no common-words',() => {
       expect(emptyComponent.find('p.common-word').length).toBe(0);
@@ -77,10 +77,10 @@ describe('CommonWords Context', () => {
         </CommonWordsProvider>
       </TextAreaContext.Provider>
     );
-    waitForComponentToPaint(thisInstance);
+    updateComponentWithAct(thisInstance);
     it('renders 10 common words', () => {
       thisInstance.setProps({})
-      waitForComponentToPaint(thisInstance);
+      updateComponentWithAct(thisInstance);
       let commonWordsPs = thisInstance.find('p.common-word')
       expect(commonWordsPs.length).toBe(10)
     })
