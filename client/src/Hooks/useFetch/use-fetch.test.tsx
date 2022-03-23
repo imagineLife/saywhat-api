@@ -7,7 +7,7 @@ import useFetch from ".";
 import { updateComponentWithAct } from "../../helpers"
 import * as fetchReducer from './reducer'
 
-function setupFetchStub(data) {
+function setupFetchStub(data: {juice: string}) {
   return function fetchStub(_url) {
     return new Promise((resolve) => {
       resolve({
