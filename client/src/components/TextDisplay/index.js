@@ -138,7 +138,7 @@ const TextDisplay = () => {
     ...MOVE THIS ELSEWHERE?
   */
   const themeMappedObject = { };
-  themesData && themesData.forEach((t, idx) => {
+  themesData?.forEach((t, idx) => {
     // loop through the nested array element
     t.forEach((nestedThemeWord) => {
       themeMappedObject[nestedThemeWord] = themeMappedObject[nestedThemeWord]
