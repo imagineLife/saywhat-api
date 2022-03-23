@@ -4,7 +4,7 @@ import toJson from 'enzyme-to-json';
 import { TextAreaContext, TextAreaProvider } from '../../../Contexts/TextArea';
 import { AreaContext, AreaProvider } from './Context';
 import mockTextAreaData from './mock-text-area-vals.json';
-import { waitForComponentToPaint } from '../../../helpers';
+import { updateComponentWithAct } from '../../../helpers';
 
 describe('Area Context', () => {
   const ChildBox = () => {
@@ -25,7 +25,7 @@ describe('Area Context', () => {
       </TextAreaContext.Consumer>
     </TextAreaContext.Provider>
   );
-  waitForComponentToPaint(initialRender)
+  updateComponentWithAct(initialRender)
 
     it('matches snapshot', () => {
       expect(toJson(initialRender)).toMatchSnapshot();
