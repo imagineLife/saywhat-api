@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import CommonWords from '.';
 
@@ -8,7 +8,6 @@ import { WordListContext } from '../../Contexts/CommonWords';
 
 // Mock Data
 import mockWordLists from '../../__mocks__/wordLists.json';
-import displayText from '../../__mocks__/displayText.js';
 
 const mockProps = {
   // wordLists: mockWordLists,
