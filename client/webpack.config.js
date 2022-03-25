@@ -1,10 +1,16 @@
 const HtmlPlugin = require("html-webpack-plugin");
 const ForkTSChecker = require('fork-ts-checker-webpack-plugin');
-// const path = require("path");
+const path = require("path");
 
 module.exports = (env) => {
   const config = {
     mode: env.mode,
+     output: {
+      filename: 'main.js',
+      path: path.resolve(__dirname, 'build'),
+      //  https://webpack.js.org/configuration/output/#outputpublicpath
+      publicPath: '/'
+    },
     entry: ["regenerator-runtime/runtime.js","./src/index.tsx"],
     module: {
       rules: [
@@ -82,6 +88,9 @@ module.exports = (env) => {
         }
       })
     ],
+    devServer: {
+      historyApiFallback: true
+    }
   };
   return config;
 };
