@@ -11,7 +11,7 @@
     "start:docker-dev": "PORT=3000 MONGO_DB_USER=test_user MONGO_DB_PW=test_pw MONGO_DB_HOST=mongobox MONGO_DB_PORT=27017 MONGO_DB_AUTH_DB=admin nodemon .",
     "start": "PORT=$PORT DB=false node .",
     "start-local": "PORT=3000 DB=false node .",
-    "start-with-db": "PORT=3000 MONGO_AUTH=false MONGO_DB_HOST=localhost MONGO_DB_PORT=27017 MONGO_DB_AUTH_DB=admin node .",
+    "start-with-db": "NODE_ENV=development PORT=3000 MONGO_AUTH=false MONGO_DB_HOST=localhost MONGO_DB_PORT=27017 MONGO_DB_AUTH_DB=admin node .",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
