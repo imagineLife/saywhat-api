@@ -27,7 +27,6 @@ async function setupCollection({cName, db, state}){
 */
 async function setupStores(mongoClient){
   console.log('SERVER: validating & setting up db & collections')
-  let dbs = await getAndLogDBs(mongoClient)
   const SayWhatDb = mongoClient.db('SayWhat')
 
   GLOBAL_STATE.DBS.SayWhat = SayWhatDb;

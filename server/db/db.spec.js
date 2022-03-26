@@ -127,7 +127,7 @@ describe('DB Setup', () => {
       it('returns list of dbs', async () => {
         await getAndLogDBs(mongoConnection)
         // including previous test & code log counts
-        expect(console.table).toHaveBeenCalledTimes(3)
+        expect(console.table).toHaveBeenCalledTimes(1)
       })
 
       afterEach(async function(){
