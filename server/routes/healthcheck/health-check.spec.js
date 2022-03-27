@@ -6,11 +6,11 @@ const { startServer, stopServer, expressObj } = require('./../../server-setup');
 describe(HEALTH_CHECK, function () {
   chai.use(chaiHttp);
   let localServerObj;
-  beforeAll(async function () {
+  beforeEach(async function () {
     localServerObj = await startServer(expressObj)
   });
 
-  afterAll(async function () {
+  afterEach(async function () {
     await stopServer(localServerObj)
   });
 
