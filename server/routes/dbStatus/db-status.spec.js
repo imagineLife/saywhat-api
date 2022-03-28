@@ -18,7 +18,7 @@ describe(DB.ROOT, function () {
     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.KILL}`);
     expect(JSON.stringify(res.body)).toBe(JSON.stringify({DB_CONNECTED: false}));
   });
-  it(`${DB.RESTART} returns down val`, async function () {
+  it(`${DB.RESTART} returns up val`, async function () {
     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.RESTART}`);
     expect(JSON.stringify(res.body)).toBe(JSON.stringify({DB_CONNECTED: true}));
   });
