@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
-const { GLOBAL_STATE } = require('./../global')
+const { GLOBAL_STATE } = require('../global')
+const { DB } = require('../models')
 
 /*
   - setups up a db collection if not already present
@@ -76,42 +77,12 @@ function makeConnectionString({
   return `mongodb://${username}:${pw}@${host}:${port}/?authSource=${authDB}`;
 }
 
-async function getAndLogDBs(mongoClient) {
-    databasesList = await mongoClient.db().admin().listDatabases();
-    const { databases } = databasesList
-    console.table(databases)
-    return databases;
-};
-
-async function setupDB(connectionParams) {
-  console.log('Connecting to db')
-  
-  try {
-    // Connect
-    const uriStr = makeConnectionString(connectionParams)
-    const mongoClient = new MongoClient(uriStr);
-    await mongoClient.connect();
-
-    // store 
-    GLOBAL_STATE.DB_CONNECTED = true;
-    console.log('SERVER: Connected to mongo db!')
-    await setupStores(mongoClient);
-
-    return mongoClient;
-  } catch (e) {
-    console.log(`setupDB fn error:`)
-    console.log(e);
-  }
-}
-
 async function closeDBConnection(mongoClient){
   return await mongoClient.close()
 }
 
 module.exports = {
   makeConnectionString,
-  setupDB,
-  getAndLogDBs,
   closeDBConnection,
   setupStores,
   setupCollection

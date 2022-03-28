@@ -1,10 +1,10 @@
 const {
   makeConnectionString,
-  setupDB,
+  // setupDB,
   getAndLogDBs,
   closeDBConnection,
   setupCollection
-} = require('./')
+} = require('.')
 const { MongoClient } = require('mongodb');
 
 /*
@@ -85,58 +85,58 @@ describe('DB Setup', () => {
       })
     })
   })
-  describe('setupDB', () => {
-    describe('logs error strings without expected connection param', () => {
-      beforeEach(() => {
-          delete process.env.MONGO_AUTH;
-        })
-        it('authDB', () => {
-          jest.spyOn(global.console, 'log')
-          const mockProps = {}
-          mockProps.port = '27017';
-          setupDB(mockProps)
-          expect(console.log).toHaveBeenCalledWith('setupDB fn error:')
-          expect(console.log).toHaveBeenCalledWith('Cannot create db connection with missing param')
-        })
-    })
-    describe('Connects & returns list of dbs', () => {
-      let mongoConnection;
-      const testConnection = {
-          host: 'localhost',
-          port: '27017'
-        }
+  // describe('setupDB', () => {
+  //   describe('logs error strings without expected connection param', () => {
+  //     beforeEach(() => {
+  //         delete process.env.MONGO_AUTH;
+  //       })
+  //       it('authDB', () => {
+  //         jest.spyOn(global.console, 'log')
+  //         const mockProps = {}
+  //         mockProps.port = '27017';
+  //         setupDB(mockProps)
+  //         expect(console.log).toHaveBeenCalledWith('setupDB fn error:')
+  //         expect(console.log).toHaveBeenCalledWith('Cannot create db connection with missing param')
+  //       })
+  //   })
+  //   describe('Connects & returns list of dbs', () => {
+  //     let mongoConnection;
+  //     const testConnection = {
+  //         host: 'localhost',
+  //         port: '27017'
+  //       }
       
-      beforeAll(() => {
-        jest.spyOn(global.console, 'table')
-      })
-      beforeEach(async function(){
-        process.env.MONGO_AUTH = false;
-        try{
-          mongoConnection = await setupDB(testConnection);
-        }catch(e){
-          console.log('ERROR:');
-          console.log(e);
-        }
-      });
+  //     beforeAll(() => {
+  //       jest.spyOn(global.console, 'table')
+  //     })
+  //     beforeEach(async function(){
+  //       process.env.MONGO_AUTH = false;
+  //       try{
+  //         mongoConnection = await setupDB(testConnection);
+  //       }catch(e){
+  //         console.log('ERROR:');
+  //         console.log(e);
+  //       }
+  //     });
 
-      it('has internal state url matching connection params', () => {
-        // https://github.com/mongodb/node-mongodb-native/blob/a766f1c/src/mongo_client.ts#L324
-        expect(mongoConnection.s.url).toBe(`mongodb://${testConnection.host}:${testConnection.port}/?connectTimeoutMS=2500`)
-      })
+  //     it('has internal state url matching connection params', () => {
+  //       // https://github.com/mongodb/node-mongodb-native/blob/a766f1c/src/mongo_client.ts#L324
+  //       expect(mongoConnection.s.url).toBe(`mongodb://${testConnection.host}:${testConnection.port}/?connectTimeoutMS=2500`)
+  //     })
 
-      it('returns list of dbs', async () => {
-        await getAndLogDBs(mongoConnection)
-        // including previous test & code log counts
-        expect(console.table).toHaveBeenCalledTimes(1)
-      })
+  //     it('returns list of dbs', async () => {
+  //       await getAndLogDBs(mongoConnection)
+  //       // including previous test & code log counts
+  //       expect(console.table).toHaveBeenCalledTimes(1)
+  //     })
 
-      afterEach(async function(){
-        if(mongoConnection){
-          await closeDBConnection(mongoConnection);
-        }
-      });
-    })
-  })
+  //     afterEach(async function(){
+  //       if(mongoConnection){
+  //         await closeDBConnection(mongoConnection);
+  //       }
+  //     });
+  //   })
+  // })
   describe('setupCollection', () => {
     const uriString = 'mongodb://localhost:27017/?connectTimeoutMS=2500'
     let mongoClient;
