@@ -5,7 +5,8 @@ const routes = {
     RESTART:'/restart',
     ROOT: '/db',
     STATUS: '/status'
-  }
+  },
+  USERS: '/users'
 }
 
 module.exports = routes;
