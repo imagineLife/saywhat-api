@@ -1,12 +1,26 @@
 const { DB } = require('../db');
 
 class Crud extends DB{
-  constructor(params){
+  constructor(params) {
     super(params);
+    if (!this.client) {
+      throw new Error('Cannot call Crud without client')
+    }
+    if (!this.db) {
+      throw new Error('Cannot call Crud without db')
+    }
     this.collection = params.collection
   }
 
-  createOne(obj){
+  // async register() { 
+    
+  // }
+
+  createOne(obj) {
+    console.log('createOne THIS')
+    console.log(this)
+    console.log('- - - -')
+    
     return `Creating One on ${this.collection} where ${JSON.stringify(obj)}`
   }
   read(obj){
