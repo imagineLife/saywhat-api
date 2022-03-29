@@ -1,9 +1,7 @@
 const {
   makeConnectionString,
-  // setupDB,
   getAndLogDBs,
-  closeDBConnection,
-  setupCollection
+  // setupCollection
 } = require('.')
 const { MongoClient } = require('mongodb');
 
@@ -129,85 +127,79 @@ describe('DB Setup', () => {
   //       // including previous test & code log counts
   //       expect(console.table).toHaveBeenCalledTimes(1)
   //     })
-
-  //     afterEach(async function(){
-  //       if(mongoConnection){
-  //         await closeDBConnection(mongoConnection);
-  //       }
-  //     });
   //   })
   // })
-  describe('setupCollection', () => {
-    const uriString = 'mongodb://localhost:27017/?connectTimeoutMS=2500'
-    let mongoClient;
-    let mockState = {}
-    let mockDb;
-    /*
-      run order hooks
-    */
-    beforeAll(() => {
-      mongoClient = new MongoClient(uriString)
-      jest.spyOn(global.console, 'log')
-      mockDb = mongoClient.db('MockDb')
-      return  mongoClient.connect()
-    })
+  // describe('setupCollection', () => {
+  //   const uriString = 'mongodb://localhost:27017/?connectTimeoutMS=2500'
+  //   let mongoClient;
+  //   let mockState = {}
+  //   let mockDb;
+  //   /*
+  //     run order hooks
+  //   */
+  //   beforeAll(() => {
+  //     mongoClient = new MongoClient(uriString)
+  //     jest.spyOn(global.console, 'log')
+  //     mockDb = mongoClient.db('MockDb')
+  //     return  mongoClient.connect()
+  //   })
 
-    afterAll(() => {
-      mongoClient.close()
-    })
+  //   afterAll(() => {
+  //     mongoClient.close()
+  //   })
 
-    describe('succeeds', () => {  
-      afterEach(() => { 
-        return mockDb.collection('Sauce').drop()
-      })
+  //   describe('succeeds', () => {  
+  //     afterEach(() => { 
+  //       return mockDb.collection('Sauce').drop()
+  //     })
 
-      // tests
-      it('calls createCollection with expected cName Param', async function(){  
-        await setupCollection({
-          cName: 'Sauce',
-          db: mockDb,
-          state: mockState
-        })
-        expect(console.log).toHaveBeenCalledWith('DB: collection Sauce setup')
-      })
-    })
+  //     // tests
+  //     it('calls createCollection with expected cName Param', async function(){  
+  //       await setupCollection({
+  //         cName: 'Sauce',
+  //         db: mockDb,
+  //         state: mockState
+  //       })
+  //       expect(console.log).toHaveBeenCalledWith('DB: collection Sauce setup')
+  //     })
+  //   })
 
 
-    describe('fails', () => {
-      beforeEach(() => {
-        jest.spyOn(global.console, 'log')
-        return setupCollection({
-          cName: 'FailableCollection',
-          db: mockDb,
-          state: mockState
-        })
-      })
-      afterEach(() => {
-        return mockDb.collection('FailableCollection').drop()
-      })
+  //   describe('fails', () => {
+  //     beforeEach(() => {
+  //       jest.spyOn(global.console, 'log')
+  //       return setupCollection({
+  //         cName: 'FailableCollection',
+  //         db: mockDb,
+  //         state: mockState
+  //       })
+  //     })
+  //     afterEach(() => {
+  //       return mockDb.collection('FailableCollection').drop()
+  //     })
 
-      it('throws NamespaceExists err', async function(){
-        await setupCollection({
-          cName: 'FailableCollection',
-          db: mockDb,
-          state: mockState
-        })
-        expect(console.log).toHaveBeenLastCalledWith('DB: collection FailableCollection already setup')
-      })
+  //     it('throws NamespaceExists err', async function(){
+  //       await setupCollection({
+  //         cName: 'FailableCollection',
+  //         db: mockDb,
+  //         state: mockState
+  //       })
+  //       expect(console.log).toHaveBeenLastCalledWith('DB: collection FailableCollection already setup')
+  //     })
 
-      it('throws to OTHER  err', async function(){
-        const mockDB = {
-          createCollection: () => {
-            throw Error({codeName: 'HORSE'})
-          }
-        }
-        await setupCollection({
-          cName: 'FailableCollection',
-          db: mockDB,
-          state: mockState
-        })
-        expect(console.log).toHaveBeenLastCalledWith("DB ERROR: setupCollection for ", "FailableCollection")
-      })
-    })
-  })
+  //     it('throws to OTHER  err', async function(){
+  //       const mockDB = {
+  //         createCollection: () => {
+  //           throw Error({codeName: 'HORSE'})
+  //         }
+  //       }
+  //       await setupCollection({
+  //         cName: 'FailableCollection',
+  //         db: mockDB,
+  //         state: mockState
+  //       })
+  //       expect(console.log).toHaveBeenLastCalledWith("DB ERROR: setupCollection for ", "FailableCollection")
+  //     })
+  //   })
+  // })
 })
