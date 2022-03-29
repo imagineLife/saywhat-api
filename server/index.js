@@ -2,7 +2,8 @@
 const { twoAreEqual } = require('./helpers')
 const { 
   expressObj, 
-  startServer 
+  startServer,
+  setupDB
 } = require('./server-setup')
 const { ServicesEmitter } = require('./global')
 
@@ -16,10 +17,9 @@ async function startApi(){
         pw: process.env.MONGO_DB_PW,
         host: process.env.MONGO_DB_HOST,
         port: process.env.MONGO_DB_PORT,
-        authDB: process.env.MONGO_DB_AUTH_DB,
-        dbName: 'SayWhat'
+        authDB: process.env.MONGO_DB_AUTH_DB
       }
-      // await setupDB({...db_obj})
+      await setupDB({...db_obj})
     }
   }catch(e){
     console.log(e)
