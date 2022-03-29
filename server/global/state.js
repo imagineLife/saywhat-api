@@ -1,5 +1,6 @@
 const GLOBAL_STATE = {
-  DB_CONNECTED:false,   //used in checkForDbConnection middleware
+  MONGO_CONNECTED: false,   //used in checkForDbConnection middleware
+  MONGO_CLIENT: null,
   DBS:{
     SayWhat: false
   },
