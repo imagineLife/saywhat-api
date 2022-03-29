@@ -1,10 +1,9 @@
 const { MongoClient } = require('mongodb');
 const { GLOBAL_STATE } = require('./../../global');
 class DB{
-  constructor({ connectionObj, dbName }) {
+  constructor({ connectionObj }) {
     this.connectionObj = connectionObj;
     this.client = null;
-    this.dbName = dbName;
   }
 
   /*
@@ -24,9 +23,8 @@ class DB{
       await this.client.connect();
 
       // store 
-      GLOBAL_STATE.DB_CONNECTED = true;
+      GLOBAL_STATE.MONGO_CONNECTED = true;
       console.log(`SERVER: Connected to mongo db on ${this.connectionObj.host}:${this.connectionObj.port}`)
-      // await setupStores(mongoClient);
 
       return this.client;
     } catch (e) {
