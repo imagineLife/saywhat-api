@@ -24,7 +24,7 @@ describe('DB Model', () => {
         connectionObj: {
           host: 'localhost',
           port: '27017'
-        }, dbName: 'TestSayWhat'
+        }
       })
       
       beforeAll(() => {
