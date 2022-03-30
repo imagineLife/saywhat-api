@@ -1,4 +1,7 @@
 const { twoAreEqual } = require('./../helpers')
+const { DB } = require('./../models');
+const { GLOBAL_STATE } = require('./../global')
+
 const PORT = process.env.PORT || 3000;
 console.log('----startup env vars----')
 console.table({
@@ -26,8 +29,26 @@ async function startServer(srvr){
   })
 }
 
+async function setupDB(params) {
+  try {
+    // Connect
+    const MongoClient = new DB({
+      connectionObj: {
+        host: params.host,
+        port: params.port
+      }
+    })
+    let mongoDBClient = await MongoClient.connect()
+    return mongoDBClient;
+  } catch (e) {
+    console.log(`setupDB fn error:`)
+    console.log(e);
+  }
+}
+
 module.exports = {
   startServer,
   stopServer,
-  logIfTrue
+  logIfTrue,
+  setupDB
 }

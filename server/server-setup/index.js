@@ -2,12 +2,14 @@ const { expressObj } = require('./express');
 const { 
   startServer,
   stopServer,
-  logIfTrue 
+  logIfTrue,
+  setupDB
 } = require('./setup-fns')
 
   module.exports = {
     expressObj,
     startServer,
     stopServer,
-    logIfTrue
+    logIfTrue,
+    setupDB
   }
