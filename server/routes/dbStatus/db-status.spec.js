@@ -16,14 +16,14 @@ describe(DB.ROOT, function () {
 
   it(`${DB.KILL} returns down val`, async function () {
     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.KILL}`);
-    expect(JSON.stringify(res.body)).toBe(JSON.stringify({DB_CONNECTED: false}));
+    expect(JSON.stringify(res.body)).toBe(JSON.stringify({MONGO_CONNECTED: false}));
   });
   it(`${DB.RESTART} returns up val`, async function () {
     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.RESTART}`);
-    expect(JSON.stringify(res.body)).toBe(JSON.stringify({DB_CONNECTED: true}));
+    expect(JSON.stringify(res.body)).toBe(JSON.stringify({MONGO_CONNECTED: true}));
   });
   it(`${DB.STATUS} returns db Status obj`, async function () {
     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.STATUS}`);
-    expect(Object.keys(res.body)[0]).toBe('DB_CONNECTED');
+    expect(Object.keys(res.body)[0]).toBe('MONGO_CONNECTED');
   });
 });
