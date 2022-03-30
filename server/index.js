@@ -6,6 +6,12 @@ const {
   setupDB
 } = require('./server-setup')
 const { ServicesEmitter } = require('./global')
+const { db: {
+  NAME: DB_NAME,
+  collections: {
+    USERS
+  }
+} } = require('./global/constants')
 
 async function startApi(){
   try{
@@ -19,7 +25,12 @@ async function startApi(){
         port: process.env.MONGO_DB_PORT,
         authDB: process.env.MONGO_DB_AUTH_DB
       }
-      await setupDB({...db_obj})
+      let SayWhatMongoClient = await setupDB({ ...db_obj })
+      let sayWhatDB = SayWhatMongoClient.registerDB(DB_NAME)
+      // let users = new Crud({
+      //   db: sayWhatDB,
+      //   collection: USERS
+      // })
     }
   }catch(e){
     console.log(e)
