@@ -10,6 +10,7 @@ describe('server-setup setup-fns', () => {
     afterEach(async () => { 
       await mongoConnection.close()
     })
+
     it('calls DB model with success', async () => {
       process.env.MONGO_AUTH = false;
       mongoConnection = await setupDB({ host: 'localhost', port: '27017' })

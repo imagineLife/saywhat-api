@@ -29,6 +29,12 @@ async function startServer(srvr){
   })
 }
 
+/*
+  - takes a db name (string)
+    - builds Mongo Client
+    - connects mongo client
+  - returns the db object
+*/
 async function setupDB(params) {
   try {
     // Connect
@@ -38,8 +44,8 @@ async function setupDB(params) {
         port: params.port
       }
     })
-    let mongoDBClient = await MongoClient.connect()
-    return mongoDBClient;
+    await MongoClient.connect()
+    return MongoClient;
   } catch (e) {
     console.log(`setupDB fn error:`)
     console.log(e);
