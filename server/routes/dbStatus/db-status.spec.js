@@ -1,7 +1,7 @@
 // dependencies
 const chai= require('chai');
 const chaiHttp= require('chai-http');
-const { DB } = require('./../../global/constants');
+const { routes: { DB } } = require('./../../global/constants');
 const { startServer, stopServer, expressObj } = require('./../../server-setup');
 describe(DB.ROOT, function () {
   chai.use(chaiHttp);

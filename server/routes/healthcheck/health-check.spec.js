@@ -1,7 +1,7 @@
 // dependencies
 const chai= require('chai');
 const chaiHttp= require('chai-http');
-const { HEALTH_CHECK } = require('./../../global/constants');
+const { routes: { HEALTH_CHECK } } = require('./../../global/constants');
 const { startServer, stopServer, expressObj } = require('./../../server-setup');
 
 describe(HEALTH_CHECK, function () {
