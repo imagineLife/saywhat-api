@@ -4,6 +4,7 @@ class DB{
   constructor({ connectionObj }) {
     this.connectionObj = connectionObj;
     this.client = null;
+    this.db = null;
   }
 
   /*
@@ -37,6 +38,26 @@ class DB{
     this.client.close();
     console.log(`CLOSED db connection on ${this.connectionObj.host}:${this.connectionObj.port}`)
     
+  }
+
+  // Create a new Db instance sharing the current socket connections
+  // assigns the db to "this.db"
+  // returns the db object for use with working with collections in the db in the Crud model
+  // DOCS: https://mongodb.github.io/node-mongodb-native/4.4/classes/MongoClient.html#db
+  registerDB(dbName) {
+    /*
+      error-handling
+    */ 
+    if (!this.client) { 
+      throw new Error('attempted to registerDB without building a client: use setupDB or "new DB()" to connect to a mongo instance')
+    }
+    if (!dbName) { 
+      throw new Error('missing db name string param')
+    }
+
+
+    this.db = this.client.db(dbName)
+    return this.db;
   }
 
   async getAndLogDBs() {
