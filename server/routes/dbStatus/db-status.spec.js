@@ -7,6 +7,12 @@ describe(DB.ROOT, function () {
   chai.use(chaiHttp);
   let localServerObj;
   beforeEach(async function () {
+    if (localServerObj && localServerObj.close) {
+      await stopServer(localServerObj) 
+    }
+    if (expressObj && expressObj.close) { 
+      await stopServer(expressObj)
+    }
     localServerObj = await startServer(expressObj)
   });
 
