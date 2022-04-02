@@ -5,6 +5,7 @@ const {
   startServer,
   setupDB
 } = require('./server-setup')
+const { Crud } = require('./models')
 const { ServicesEmitter } = require('./global')
 const { db: {
   NAME: DB_NAME,
@@ -27,10 +28,25 @@ async function startApi(){
       }
       let SayWhatMongoClient = await setupDB({ ...db_obj })
       let sayWhatDB = SayWhatMongoClient.registerDB(DB_NAME)
-      // let users = new Crud({
-      //   db: sayWhatDB,
-      //   collection: USERS
-      // })
+      let users = new Crud({
+        db: sayWhatDB,
+        collection: USERS
+      })
+      // let res = await users.createOne({water: 'melon'})
+      // delete res.acknowledged;
+      // console.log('----create-user-res----')
+      // console.log(res)
+      // console.log('res.insertedId')
+      // console.log(res.insertedId)
+      
+      // let found = await users.readOne({_id: res.insertedId})
+      // console.log('found')
+      // console.log(found)
+
+      // let updated = await users.updateOne({ horse: 'dog' }, { water: 'lemon' })
+      // console.log('updated')
+      // console.log(updated)
+      
     }
   }catch(e){
     console.log(e)
