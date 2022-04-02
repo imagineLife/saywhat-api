@@ -17,7 +17,8 @@ class Crud extends DB{
     try {
       return await this.collection.insertOne(obj)
     } catch (e) { 
-      throw e
+      console.log(`${this.collectionName} createOne error`)
+      throw new Error(e)
     }
   }
 
@@ -25,8 +26,8 @@ class Crud extends DB{
      try {
       return await this.collection.findOne(obj)
     } catch (e) { 
-      console.log(`${this.collection} readOne error`)
-      console.log(e)
+      console.log(`${this.collectionName} readOne error`)
+      throw new Error(e)
     }
   }
   // async updateOne(findObj, updateObj) {
