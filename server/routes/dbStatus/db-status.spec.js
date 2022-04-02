@@ -17,7 +17,12 @@ describe(DB.ROOT, function () {
   });
 
   afterEach(async function () {
-    await stopServer(localServerObj)
+    if (localServerObj && localServerObj.close) {
+      await stopServer(localServerObj) 
+    }
+    if (expressObj && expressObj.close) { 
+      await stopServer(expressObj)
+    }
   });
 
   it(`${DB.KILL} returns down val`, async function () {
