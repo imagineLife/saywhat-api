@@ -8,12 +8,23 @@ describe(HEALTH_CHECK, function () {
   chai.use(chaiHttp);
   let localServerObj;
 
-  beforeEach(async function () {
+ beforeEach(async function () {
+    if (localServerObj && localServerObj.close) {
+      await stopServer(localServerObj) 
+    }
+    if (expressObj && expressObj.close) { 
+      await stopServer(expressObj)
+    }
     localServerObj = await startServer(expressObj)
   });
 
   afterEach(async function () {
-    return await stopServer(localServerObj)
+    if (localServerObj && localServerObj.close) {
+      await stopServer(localServerObj) 
+    }
+    if (expressObj && expressObj.close) { 
+      await stopServer(expressObj)
+    }
   });
 
   it('get returns "server is up & running!"', async function () {
