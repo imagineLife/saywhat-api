@@ -55,7 +55,6 @@ class DB{
       throw new Error('missing db name string param')
     }
 
-
     this.db = this.client.db(dbName)
     return this.db;
   }

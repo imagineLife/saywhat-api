@@ -35,6 +35,12 @@ describe('DB Model', () => {
         process.env.MONGO_AUTH = false;
       });
 
+      afterEach(async () => { 
+        if (MockDB.close) {
+          await MockDB.close()
+        }
+      })
+
       it('calls DB.connect', async () => {
         
         const connectSpy = jest.spyOn(MockDB, 'connect');
@@ -44,6 +50,7 @@ describe('DB Model', () => {
       });
 
       it('gets and logs dbs', async () => { 
+        await MockDB.connect();
         let dbs = await MockDB.getAndLogDBs()
         expect(console.table).toHaveBeenCalledTimes(1)
       })
