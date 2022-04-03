@@ -44,10 +44,10 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "statements": 97.72,
+        "statements": 98.12,
         "branches": 100,
-        "lines": 97.72,
-        "functions": 92
+        "lines": 98.12,
+        "functions": 95.65
       }
     }
   }
