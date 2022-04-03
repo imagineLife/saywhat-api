@@ -1,8 +1,15 @@
 const { ServicesEmitter } = require('./../../global/events')
 const GLOBAL_STATE = require('./../../global/state');
-function restartHandler(req,res){
-  ServicesEmitter.emit('DB_CONNECT', true)
-  res.status(200).send({MONGO_CONNECTED: GLOBAL_STATE.MONGO_CONNECTED})
+async function restartHandler(req, res) {
+  try {
+    await GLOBAL_STATE.MONGO_CLIENT.topology.connect()
+    ServicesEmitter.emit('DB_CONNECT', true)
+    res.status(200).send({ MONGO_CONNECTED: GLOBAL_STATE.MONGO_CLIENT.topology.isConnected() })
+  } catch (e) { 
+    console.log(`restart handler err:`)
+    console.log(e)
+    res.status(500).send({Error: 'server error'})
+  }
 }
 
 module.exports = restartHandler;
