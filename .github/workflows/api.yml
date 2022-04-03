@@ -21,7 +21,7 @@ jobs:
       #   https://github.com/actions/cache
       # TODO: update to v2 
       - name: cache node-mods
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           # OS-dependent + package-manager dependent path val
           # NPM Cache docs:
