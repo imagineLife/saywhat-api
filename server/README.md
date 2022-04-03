@@ -7,6 +7,7 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
   - [DB Dependent](#db-dependent)
     - [Event-Driven DB Config](#event-driven-db-config)
   - [CRUD Accounts](#crud-accounts)
+    - [admin details later](#admin-details-later)
   - [CRUD Text](#crud-text)
     - [Store Text](#store-text)
     - [Add Metadata to Text](#add-metadata-to-text)
@@ -38,13 +39,7 @@ The db connection will be event-driven.
   - this will update the api to return errors to the client during unforeseen db down time
 
 ## CRUD Accounts
-As an client with "admin" type user credentials, I can
-- [ ] Get List of user accounts
-  - [ ] email address
-  - [ ] last login date
-  - [ ] user name
-  - [ ] date created
-As a client with "user" type credentials I can 
+As a user I can 
 - [ ] Create my account with attributes
   - [ ] first name
   - [ ] last name
@@ -52,6 +47,14 @@ As a client with "user" type credentials I can
   - [ ] password
     - pw stored as one-way non-readable hashed vals
 - [ ] Edit my account attributes
+
+### admin details later
+As an client with "admin" type user credentials, I can
+- [ ] Get List of user accounts
+  - [ ] email address
+  - [ ] last login date
+  - [ ] user name
+  - [ ] date created
 
 ## CRUD Text
 
