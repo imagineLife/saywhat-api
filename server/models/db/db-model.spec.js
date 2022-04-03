@@ -1,25 +1,25 @@
 const { DB } = require('.');
 const { MongoClient } = require('mongodb');
+const { GLOBAL_STATE } = require('./../../global');
 
 describe('DB Model', () => {
-  describe('connect method', () => {
+  describe('ERR onconnect method', () => {
     describe('logs error strings without expected connection param', () => {
-      beforeEach(() => {
-          delete process.env.MONGO_AUTH;
+      it('authDB', async () => {
+        jest.spyOn(global.console, 'log')
+        MockDB = new DB({
+          connectionObj: {
+            host: 'localhost',
+            // port: '27017'
+          }, db: 'TestSayWhat'
         })
-        it('authDB', () => {
-          jest.spyOn(global.console, 'log')
-          const MockDB = new DB({
-            connectionObj: {
-              host: 'localhost',
-              // port: '27017'
-            }, db: 'TestSayWhat'
-          })
-          MockDB.connect()
-          expect(console.log).toHaveBeenCalledWith('Cannot create db connection with missing param')
-        })
+        await MockDB.connect()
+        expect(console.log).toHaveBeenCalledWith('Cannot create db connection with missing param')
+      })
     })
-    describe('methods', () => {
+  })
+
+  describe('methods', () => {
       let MockDB = new DB({
         connectionObj: {
           host: 'localhost',
@@ -116,6 +116,5 @@ describe('DB Model', () => {
         })
       })
     })
-  })
 
 })
