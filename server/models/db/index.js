@@ -15,6 +15,9 @@ class DB{
       port
       authDB
     returns the client
+
+    TODO: if multiple db connections get introduced,
+      update GLOBAL_STATE.MONGO_CLIENT to be more accommodating
   */ 
   async connect() {
     try {      
@@ -25,6 +28,7 @@ class DB{
 
       // store 
       GLOBAL_STATE.MONGO_CONNECTED = true;
+      GLOBAL_STATE.MONGO_CLIENT = this.client;
       console.log(`SERVER: Connected to mongo db on ${this.connectionObj.host}:${this.connectionObj.port}`)
 
       return this.client;
@@ -34,10 +38,9 @@ class DB{
     }
   }
 
-  close() {
-    this.client.close();
+  async close() {
+    await this.client.close();
     console.log(`CLOSED db connection on ${this.connectionObj.host}:${this.connectionObj.port}`)
-    
   }
 
   // Create a new Db instance sharing the current socket connections
