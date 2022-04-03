@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { DB } = require('../db');
 
 class Crud extends DB{
@@ -30,6 +31,7 @@ class Crud extends DB{
       throw new Error(e)
     }
   }
+ 
   async updateOne(findObj, updateObj) {
     if (!findObj || !updateObj) { 
       throw new Error(`Cannot call ${this.collectionName}.updateOne without 2 object params: 1 the find obj, 2 the update obj`)
@@ -37,13 +39,26 @@ class Crud extends DB{
      try {
       return await this.collection.updateOne(findObj, { $set: updateObj })
      } catch (e) { 
-       console.log(`${this.collectionName} updateOne error`)
+      console.log(`${this.collectionName} updateOne error`)
       throw new Error(e)
     }
   }
-  // delete(obj){
-  //   return `deleting on ${this.collection} where ${JSON.stringify(obj)}`
-  // }
+  
+  async deleteOne(deleteObj) {
+    if (!deleteObj) { 
+      throw new Error(`Cannot call ${this.collectionName}.deleteOne without an object param`)
+    }
+    if (!deleteObj.id) { 
+      throw new Error(`Cannot call ${this.collectionName}.deleteOne without 'id' key`)
+    }
+     try {
+       return await this.collection.deleteOne({_id: deleteObj.id})
+     } catch (e) {
+      console.log(`${this.collectionName} deleteOne error`)
+      throw new Error(e)
+    }
+  }
+
 }
 
 module.exports = {

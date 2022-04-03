@@ -88,6 +88,37 @@ describe('CRUD Model', () => {
         })
         
       })
+      describe('deleteOne', () => { 
+        describe('throws', () => { 
+          it('with no object parameter', async () => { 
+            try {
+              await Cat.deleteOne()
+            } catch (e) { 
+              expect(e.message).toBe('Cannot call TestCollection.deleteOne without an object param')
+            }
+          })
+          it('with no "id" key in the obj param', async () => { 
+            try {
+              await Cat.deleteOne({horse: 'dog'})
+            } catch (e) { 
+              expect(e.message).toBe('Cannot call TestCollection.deleteOne without \'id\' key')
+            }
+          })
+        })
+        describe('works', () => { 
+          it('finds, deletes, can not find the record', async () => { 
+
+            // find one
+            let deleteFoundObj = await Cat.readOne()
+            expect(deleteFoundObj._id).toBeTruthy()
+            
+            let deletedObj = await Cat.deleteOne({ id: deleteFoundObj._id })
+            expect(JSON.stringify(deletedObj)).toBe(JSON.stringify({ acknowledged: true, deletedCount: 1 }))
+            
+            
+          })
+        })
+      })
     })
 
     describe('errors throw when db is disconnected', () => { 
@@ -112,9 +143,16 @@ describe('CRUD Model', () => {
           expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
         }
       })
-       it('updateOne', async () => {
+      it('updateOne', async () => {
         try {
           await Cat.updateOne({ _id: testCreatedObject.insertedId }, {poiu: 'lkjh'})
+        } catch (e) { 
+          expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
+        }
+      })
+      it('deleteOne', async () => {
+        try {
+          await Cat.deleteOne({id: 'horse'})
         } catch (e) { 
           expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
         }
