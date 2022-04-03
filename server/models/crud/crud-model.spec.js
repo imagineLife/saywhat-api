@@ -33,14 +33,66 @@ describe('CRUD Model', () => {
       expect(catKeys.includes(xKey)).toBe(true)
     })
 
-    it('createOne then readOne works with matching _id', async () => {
-      let testObj = { dog: 'horse' }
-      testCreatedObject = await Cat.createOne(testObj)
-      let testFoundObj = await Cat.readOne({_id: testCreatedObject.insertedId})
-      expect(testCreatedObject.insertedId.toString()).toBe(testFoundObj._id.toString())
+    describe('methods work with persistent object', () => { 
+      it('createOne', async () => {
+        let testObj = { dog: 'horse' }
+        testCreatedObject = await Cat.createOne(testObj)
+        expect(Object.keys(testCreatedObject).toString()).toBe("acknowledged,insertedId")
+        expect(testCreatedObject.acknowledged).toBe(true)
+      })
+      it('readOne', async () => {
+        let testFoundObj = await Cat.readOne({_id: testCreatedObject.insertedId})
+        expect(testCreatedObject.insertedId.toString()).toBe(testFoundObj._id.toString())
+        expect(testFoundObj.dog).toBe('horse')
+      })
+      describe('updateOne', () => {
+        const updateObj = { 'water': 'melon' };
+        let expectedResObjKeys = {
+          acknowledged: true,
+          modifiedCount: 1,
+          upsertedId: null,
+          upsertedCount: 0,
+          matchedCount: 1
+        }
+        let testUpdateRes;
+
+        beforeAll(async () => {
+          testUpdateRes = await Cat.updateOne({ _id: testCreatedObject.insertedId }, updateObj)
+          console.log('testUpdateRes')
+          console.log(testUpdateRes)
+        })
+        it('acknowledged === true', () => {
+          expect(testUpdateRes.acknowledged).toBe(true)
+        })
+        it('modifiedCount === 1', () => {
+          expect(testUpdateRes.modifiedCount).toBe(1)
+        })
+        it('upsertedId === null', () => {
+          expect(testUpdateRes.upsertedId).toBe(null)
+        })
+        it('upsertedCount === 0', () => {
+          expect(testUpdateRes.upsertedCount).toBe(0)
+        })
+        it('matchedCount === 1', () => {
+          expect(testUpdateRes.matchedCount).toBe(1)
+        })
+        it('find obj and asserts updated key/val is present', async () => { 
+          let found = await await Cat.readOne({ _id: testCreatedObject.insertedId })
+          expect(found.water).toBe('melon')
+        })
+
+        it('throws err without 2 obj params', async () => {
+          try {
+            await Cat.updateOne({ _id: testCreatedObject.insertedId })
+          } catch (e) { 
+            expect(e.message).toBe('Cannot call TestCollection.updateOne without 2 object params: 1 the find obj, 2 the update obj')
+          }
+        })
+        
+      })
     })
 
-    describe('errors throw with disconnected DB', () => { 
+    describe('errors throw ', () => { 
       beforeAll(async () => { 
         await TestMongoClient.close();
       })

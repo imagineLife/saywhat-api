@@ -30,16 +30,16 @@ class Crud extends DB{
       throw new Error(e)
     }
   }
-  // async updateOne(findObj, updateObj) {
-  //   if (!findObj || !updateObj) { 
-  //     throw new Error(`Cannot call ${this.collectionName}.updateOne without 2 object params: 1 the find obj, 2 the update obj`)
-  //   }
-  //    try {
-  //     return await this.collection.updateOne(findObj, { $set: updateObj })
-  //   } catch (e) { 
-  //     throw new Error(e)
-  //   }
-  // }
+  async updateOne(findObj, updateObj) {
+    if (!findObj || !updateObj) { 
+      throw new Error(`Cannot call ${this.collectionName}.updateOne without 2 object params: 1 the find obj, 2 the update obj`)
+    }
+     try {
+      return await this.collection.updateOne(findObj, { $set: updateObj })
+    } catch (e) { 
+      throw new Error(e)
+    }
+  }
   // delete(obj){
   //   return `deleting on ${this.collection} where ${JSON.stringify(obj)}`
   // }
