@@ -20,6 +20,7 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
   - [Testing](#testing)
     - [Requires MongoDB Connection](#requires-mongodb-connection)
     - [Leverage NPM Test Scripts](#leverage-npm-test-scripts)
+- [Code Details](#code-details)
 # Goals
 
 ## DB Dependent
@@ -105,4 +106,5 @@ With a mongo instance available, leverage a few npm scripts:
 - **`npm run test:coverage`**: runs the tests and prints a code-coverage result in the terminal (_configured with [jest](https://jestjs.io/) and jest's [code coverage threshold config](https://jestjs.io/docs/configuration#coveragethreshold-object)_)
 
 
-
+# Code Details
+See [Code Readme](CODE.md) for more details
