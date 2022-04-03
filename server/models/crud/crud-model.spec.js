@@ -58,8 +58,6 @@ describe('CRUD Model', () => {
 
         beforeAll(async () => {
           testUpdateRes = await Cat.updateOne({ _id: testCreatedObject.insertedId }, updateObj)
-          console.log('testUpdateRes')
-          console.log(testUpdateRes)
         })
         it('acknowledged === true', () => {
           expect(testUpdateRes.acknowledged).toBe(true)
