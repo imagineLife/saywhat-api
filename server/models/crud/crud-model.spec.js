@@ -92,7 +92,7 @@ describe('CRUD Model', () => {
       })
     })
 
-    describe('errors throw ', () => { 
+    describe('errors throw when db is disconnected', () => { 
       beforeAll(async () => { 
         await TestMongoClient.close();
       })
@@ -110,6 +110,13 @@ describe('CRUD Model', () => {
       it('readOne', async () => {
         try {
           await Cat.readOne({_id: testCreatedObject.insertedId})
+        } catch (e) { 
+          expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
+        }
+      })
+       it('updateOne', async () => {
+        try {
+          await Cat.updateOne({ _id: testCreatedObject.insertedId }, {poiu: 'lkjh'})
         } catch (e) { 
           expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
         }

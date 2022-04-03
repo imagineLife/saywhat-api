@@ -36,7 +36,8 @@ class Crud extends DB{
     }
      try {
       return await this.collection.updateOne(findObj, { $set: updateObj })
-    } catch (e) { 
+     } catch (e) { 
+       console.log(`${this.collectionName} updateOne error`)
       throw new Error(e)
     }
   }
