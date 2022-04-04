@@ -9,7 +9,8 @@ const state = {
     },
     USERS: '/users',
     SPEECHES: {
-      ROOT: '/speeches'
+      ROOT: '/speeches',
+      BY_ID: '/:speechId'
     }
   },
   db: {
