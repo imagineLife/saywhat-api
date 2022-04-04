@@ -10,7 +10,8 @@ const { ServicesEmitter } = require('./global')
 const { db: {
   NAME: DB_NAME,
   collections: {
-    USERS
+    USERS,
+    SPEECHES
   }
 } } = require('./global/constants')
 
@@ -28,10 +29,16 @@ async function startApi(){
       }
       let SayWhatMongoClient = await setupDB({ ...db_obj })
       let sayWhatDB = SayWhatMongoClient.registerDB(DB_NAME)
-      let users = new Crud({
+      // let users = new Crud({
+      //   db: sayWhatDB,
+      //   collection: USERS
+      // })
+
+      let Speeches = new Crud({
         db: sayWhatDB,
-        collection: USERS
+        collection: SPEECHES
       })
+
       // let res = await users.createOne({water: 'melon'})
       // delete res.acknowledged;
       // console.log('----create-user-res----')
