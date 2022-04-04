@@ -2,11 +2,12 @@
 const chai= require('chai');
 const chaiHttp= require('chai-http');
 const { routes: { HEALTH_CHECK } } = require('./../../global/constants');
-const { startServer, stopServer, expressObj } = require('./../../server-setup');
+const { startServer, stopServer, expressObj, setupDB } = require('./../../server-setup');
 
 describe(HEALTH_CHECK, function () {
   chai.use(chaiHttp);
   let localServerObj;
+  let TestMongoClient;
 
  beforeEach(async function () {
     if (localServerObj && localServerObj.close) {
@@ -15,7 +16,7 @@ describe(HEALTH_CHECK, function () {
     if (expressObj && expressObj.close) { 
       await stopServer(expressObj)
     }
-    localServerObj = await startServer(expressObj)
+   localServerObj = await startServer(expressObj)
   });
 
   afterEach(async function () {
