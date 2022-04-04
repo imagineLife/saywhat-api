@@ -14,7 +14,7 @@ const { db: {
     SPEECHES
   }
 } } = require('./global/constants')
-
+const { GLOBAL_STATE } = require('./global')
 async function startApi(){
   try{
     startServer(expressObj)
@@ -29,15 +29,16 @@ async function startApi(){
       }
       let SayWhatMongoClient = await setupDB({ ...db_obj })
       let sayWhatDB = SayWhatMongoClient.registerDB(DB_NAME)
-      // let users = new Crud({
-      //   db: sayWhatDB,
-      //   collection: USERS
-      // })
 
+      /* Register */
       let Speeches = new Crud({
         db: sayWhatDB,
         collection: SPEECHES
       })
+
+      GLOBAL_STATE.Collections.Speeches = Speeches;
+
+
 
       // let res = await users.createOne({water: 'melon'})
       // delete res.acknowledged;
