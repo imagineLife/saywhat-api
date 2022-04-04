@@ -18,6 +18,7 @@ describe(DB.ROOT, function () {
       await stopServer(expressObj)
     }
     localServerObj = await startServer(expressObj)
+
     const db_obj = {
       host: 'localhost',
       port: '27017'
@@ -48,9 +49,12 @@ describe(DB.ROOT, function () {
       expect(JSON.stringify(res.body)).toBe(JSON.stringify({ MONGO_CONNECTED: true }));
     });
 
-    it('throws err when db is disconnected', async () => {
-      await TestMongoClient.close();
+    it('throws err when GLOBAL mongo client is missing', async () => {
+      let tempClient = GLOBAL_STATE.MONGO_CLIENT;
+      GLOBAL_STATE.MONGO_CLIENT = null;
       const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.RESTART}`);
+      GLOBAL_STATE.MONGO_CLIENT = tempClient;
+      expect(res.status).toBe(500)
       expect(JSON.stringify(res.body)).toBe(JSON.stringify({ Error: 'server error' }));
     })
   })
