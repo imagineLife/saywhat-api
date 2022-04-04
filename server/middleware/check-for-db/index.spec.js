@@ -10,12 +10,13 @@ describe('checkForDbConnection', () => {
   };
   describe('returns err obj', () => {
     it('when is NOT db path OR healthCheck AND DB is not connected', () => {
+      const mockCB = jest.fn()
       const mockReq = {
         path: '/water'
       }
       const mockRes = mockResponse();
 
-      const res = checkForDbConnection(mockReq, mockRes)
+      let res = checkForDbConnection(mockReq, mockRes, mockCB)
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.send).toHaveBeenCalledWith({Error: "Server Error, try again shortly"});
 
