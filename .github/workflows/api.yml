@@ -43,6 +43,7 @@ jobs:
       - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           working-directory: server
+          annotations: none
   # build-and-deploy:
   #   runs-on: ubuntu-latest
   #   needs: ["api-coverage"]
