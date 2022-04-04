@@ -43,7 +43,6 @@ jobs:
       - uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           working-directory: server
-          test-script: npm run test --coverage --testLocationInResults --outputFile=report.json --forceExit
   # build-and-deploy:
   #   runs-on: ubuntu-latest
   #   needs: ["api-coverage"]
