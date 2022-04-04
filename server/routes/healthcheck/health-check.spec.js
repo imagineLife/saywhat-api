@@ -7,7 +7,6 @@ const { startServer, stopServer, expressObj, setupDB } = require('./../../server
 describe(HEALTH_CHECK, function () {
   chai.use(chaiHttp);
   let localServerObj;
-  let TestMongoClient;
 
  beforeEach(async function () {
     if (localServerObj && localServerObj.close) {
