@@ -7,12 +7,16 @@ const state = {
       ROOT: '/db',
       STATUS: '/status'
     },
-    USERS: '/users'
+    USERS: '/users',
+    SPEECHES: {
+      ROOT: '/speeches'
+    }
   },
   db: {
     NAME: 'SayWhat',
     collections: {
-      USERS: 'Users'
+      USERS: 'Users',
+      SPEECHES: 'Speeches'
     }
   }
 }
