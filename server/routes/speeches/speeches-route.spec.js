@@ -33,35 +33,14 @@ describe(SPEECHES.ROOT, function () {
     if (expressObj && expressObj.close) { 
       await stopServer(expressObj)
     }
+    await TestMongoClient.close()
   });
-
-  describe(`${SPEECHES.ROOT}`, () => { 
-    describe('GET', () => { 
-      it('returns 500 & err string when db not connected', async () => {
-        const res = await chai.request(localServerObj).get(`${SPEECHES.ROOT}`);
-        expect(res.status).toBe(500)
-        expect(res.body).toBe('server error')
-      })
+  
+  // describe(`${SPEECHES.ROOT} GET`, () => { 
+    it('returns 500 & err string when db not connected', async () => {
+      const res = await chai.request(localServerObj).get(`${SPEECHES.ROOT}`);
+      expect(res.status).toBe(500)
+      expect(res.body).toBe('server error')
     })
-  })
-  // it(`${DB.STATUS} returns db Status obj`, async function () {
-  //   const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.STATUS}`);
-  //   expect(Object.keys(res.body)[0]).toBe('MONGO_CONNECTED');
-  // });
-  // it(`${DB.KILL} returns down val`, async function () {
-  //   const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.KILL}`);
-  //   expect(JSON.stringify(res.body)).toBe(JSON.stringify({MONGO_CONNECTED: false}));
-  // });
-  // describe(`${DB.RESTART}`, () => {
-  //   it(`returns up val`, async function () {
-  //     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.RESTART}`);
-  //     expect(JSON.stringify(res.body)).toBe(JSON.stringify({ MONGO_CONNECTED: true }));
-  //   });
-
-  //   it('throws err when db is disconnected', async () => {
-  //     await TestMongoClient.close();
-  //     const res = await chai.request(localServerObj).get(`${DB.ROOT}${DB.RESTART}`);
-  //     expect(JSON.stringify(res.body)).toBe(JSON.stringify({ Error: 'server error' }));
-  //   })
   // })
 });
