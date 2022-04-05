@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const { DB } = require('../db');
 
 class Crud extends DB{

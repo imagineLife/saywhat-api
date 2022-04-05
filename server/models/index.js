@@ -4,5 +4,4 @@ const { Crud } = require('./crud');
 module.exports = {
   DB,
   Crud
-  // Users
 }
