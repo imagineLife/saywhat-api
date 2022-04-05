@@ -8,6 +8,14 @@ class UserAuth extends Crud{
     this.collection = this.db.collection(props.collection);
   }
 
+  validateEmailString(str){
+    return String(str)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   /*
     Allow user-registration (see functionalities/USER_REGISTRATION.md) for more deets
     FIRST STEP in user-registration
@@ -16,7 +24,16 @@ class UserAuth extends Crud{
     - create an registration_token or something...
     - send an email to the user with a unique code for them to enter here
   */
-  async registerEmail() { 
+  async registerEmail(params) { 
+    if (!params?.email) { 
+      throw new Error(`Cannot call registerEmail without an email address param`)
+    }
+    if (!this.validateEmailString(params.email)) { 
+      throw new Error(`Cannot call registerEmail without a valid email address`)
+    }
+    // await this.createOne({
+    //   email: 
+    // })
     return 'UserAuth signupMethod Here'
   }
 

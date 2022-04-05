@@ -36,10 +36,41 @@ describe('UserAuth Model', () => {
     expect(catKeys.includes(xKey)).toBe(true)
   })
 
-  describe('methods work', () => {
-    it('registerEmail', async () => { 
-      let res = await Cat.registerEmail()
-      expect(res).toBe('UserAuth signupMethod Here')
+  describe('methods', () => {
+    describe('validateEmail', () => { 
+      const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
+      const passingArr = ['juice@box.com','water@melon.com','water.melon@hotSauce.com']
+      it.each(failArr)(`fails with %s`, (str) => { 
+        expect(Cat.validateEmailString(str)).toBe(null)
+      })
+      it.each(passingArr)(`passes with %s`, (passingStr) => { 
+        expect(Cat.validateEmailString(passingStr)[0]).toBe(passingStr.toLowerCase())
+      })
+    })
+    describe('registerEmail', () => { 
+      describe('returns error', () => {
+        it('without email param', async () => { 
+          try {
+            await Cat.registerEmail()
+          } catch (e) {
+            expect(e.message).toBe('Cannot call registerEmail without an email address param')
+          }
+        })
+
+        const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
+        it.each(failArr)('without valid email address %s', async (str) => { 
+          try {
+            await Cat.registerEmail({email: str})
+          } catch (e) {
+            expect(e.message).toBe('Cannot call registerEmail without a valid email address')
+          }
+        })
+      })
+
+      it('works', async () => { 
+        const res = await Cat.registerEmail({email: 'horse@sauce.com'})
+        expect(res).toBe('UserAuth signupMethod Here')
+      })
     })
 
     it('validateEmail', () => { 
