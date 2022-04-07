@@ -25,9 +25,6 @@ class UserAuth extends Crud{
     - send an email to the user with a unique code for them to enter here
   */
   async registerEmail({email}) { 
-    if (!email) { 
-      throw new Error(`Cannot destructure property 'email' of 'undefined' as it is undefined.`)
-    }
     if (!this.validateEmailString(email)) { 
       throw new Error(`Cannot call registerEmail without a valid email address`)
     }
