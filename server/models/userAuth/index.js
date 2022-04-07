@@ -24,15 +24,15 @@ class UserAuth extends Crud{
     - create an registration_token or something...
     - send an email to the user with a unique code for them to enter here
   */
-  async registerEmail(params) { 
-    if (!params?.email) { 
-      throw new Error(`Cannot call registerEmail without an email address param`)
+  async registerEmail({email}) { 
+    if (!email) { 
+      throw new Error(`Cannot destructure property 'email' of 'undefined' as it is undefined.`)
     }
-    if (!this.validateEmailString(params.email)) { 
+    if (!this.validateEmailString(email)) { 
       throw new Error(`Cannot call registerEmail without a valid email address`)
     }
     // await this.createOne({
-    //   email: 
+    //   email,
     // })
     return 'UserAuth signupMethod Here'
   }
