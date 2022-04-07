@@ -8,6 +8,12 @@ class Crud extends DB{
     this.collection = this.db.collection(props.collection);
   }
 
+
+  // for recording the current date
+  nowUTC() { 
+    return new Date(new Date().toUTCString())
+  }
+
   /*
     - setups up a collection if not already present
     - stores collection name in state var

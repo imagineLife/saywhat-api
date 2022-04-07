@@ -22,6 +22,11 @@ describe('Crud Model', () => {
     await TestMongoClient.close()
   })
 
+  it('returns an object from the nowUTC method', () => { 
+    let res = Cat.nowUTC()
+    expect(typeof res).toBe('object')
+  })
+
   it('Crud.collectionName matches input param', () => { 
     expect(Cat.collectionName).toBe('TestCollection')
   })
