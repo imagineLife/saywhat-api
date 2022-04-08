@@ -18,8 +18,6 @@ describe('UserAuth Model', () => {
     TestMongoClient = await setupDB({ ...db_obj });
     TestSayWhat = TestMongoClient.registerDB(DB_NAME);
     Cat = new UserAuth({ db: TestSayWhat, collection: COLL_NAME });
-    console.log('Object.getOwnPropertyNames(Cat)')
-    console.log(Object.getOwnPropertyNames(Cat))
   })
 
   afterAll(async () => { 
