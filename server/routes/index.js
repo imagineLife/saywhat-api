@@ -5,7 +5,6 @@ const {
     DB,
     HEALTH_CHECK,
     SPEECHES
-    // USERS
   }
 } = require('./../global/constants');
 const healthCheckHandler =  require('./healthcheck');
