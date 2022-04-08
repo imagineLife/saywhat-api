@@ -8,9 +8,21 @@ const { startServer, stopServer, expressObj, setupDB } = require('./../../../../
 describe(`${ROOT}: GET`, function () {
   chai.use(chaiHttp);
   let localServerObj;
-  // let TestMongoClient;
-  beforeEach(async function () {
+  let TestMongoClient;
+  
+  beforeAll(async () => { 
     process.env.MONGO_AUTH = false;
+    const db_obj = {
+      host: 'localhost',
+      port: '27017'
+    }
+    TestMongoClient = await setupDB({ ...db_obj });
+  })
+  afterAll(async () => { 
+    await TestMongoClient.close()
+  })
+
+  beforeEach(async function () {
     if (localServerObj && localServerObj.close) {
       await stopServer(localServerObj) 
     }
@@ -18,26 +30,18 @@ describe(`${ROOT}: GET`, function () {
       await stopServer(expressObj)
     }
     localServerObj = await startServer(expressObj)
-
-    const db_obj = {
-      host: 'localhost',
-      port: '27017'
-    }
-    TestMongoClient = await setupDB({ ...db_obj });
   });
 
   afterEach(async function () {
-    // await TestMongoClient.close()
     if (localServerObj && localServerObj.close) {
       await stopServer(localServerObj) 
     }
     if (expressObj && expressObj.close) { 
       await stopServer(expressObj)
     }
-    await TestMongoClient.close()
   });
 
-  it(`returns horse`, async function () {
+  it(`returns "server error"`, async function () {
     const res = await chai.request(localServerObj).get(`${ROOT}`);
     expect(res.body).toBe("server error")
   });
