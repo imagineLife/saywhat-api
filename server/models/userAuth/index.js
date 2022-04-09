@@ -28,10 +28,19 @@ class UserAuth extends Crud{
     if (!this.validateEmailString(email)) { 
       throw new Error(`Cannot call registerEmail without a valid email address`)
     }
-    // await this.createOne({
-    //   email,
-    // })
-    return 'UserAuth signupMethod Here'
+
+    let now = this.nowUTC()
+    let expirationTime;
+    try {
+      await this.createOne({
+        email,
+        created_date: now,
+        registration_expires: 
+      })
+      
+    } catch (e) { 
+      console.log(`userAuth registerEmail`)
+    }
   }
 
   /*

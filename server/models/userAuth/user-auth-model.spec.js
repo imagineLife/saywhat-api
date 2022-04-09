@@ -37,17 +37,21 @@ describe('UserAuth Model', () => {
   describe('methods', () => {
     describe('validateEmail', () => { 
       const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
-      const passingArr = ['juice@box.com','water@melon.com','water.melon@hotSauce.com']
-      it.each(failArr)(`fails with %s`, (str) => { 
-        expect(Cat.validateEmailString(str)).toBe(null)
+      const passingArr = ['juice@box.com', 'water@melon.com', 'water.melon@hotSauce.com']
+      describe('fails with...', () => { 
+        it.each(failArr)(`%s`, (str) => { 
+          expect(Cat.validateEmailString(str)).toBe(null)
+        })
       })
-      it.each(passingArr)(`passes with %s`, (passingStr) => { 
-        expect(Cat.validateEmailString(passingStr)[0]).toBe(passingStr.toLowerCase())
+      describe('passes with...', () => { 
+        it.each(passingArr)(`%s`, (passingStr) => { 
+          expect(Cat.validateEmailString(passingStr)[0]).toBe(passingStr.toLowerCase())
+        })
       })
     })
     describe('registerEmail', () => { 
-      describe('returns error', () => {
-        it('without email param', async () => { 
+      describe('returns error without...', () => {
+        it('email param', async () => { 
           try {
             await Cat.registerEmail()
           } catch (e) {
@@ -56,7 +60,7 @@ describe('UserAuth Model', () => {
         })
 
         const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
-        it.each(failArr)('without valid email address %s', async (str) => { 
+        it.each(failArr)('valid email address %s', async (str) => { 
           try {
             await Cat.registerEmail({email: str})
           } catch (e) {
