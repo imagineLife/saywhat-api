@@ -8,6 +8,7 @@ class UserAuth extends Crud{
     this.collection = this.db.collection(props.collection);
   }
 
+  // regex validates that string is indeed an email address string
   validateEmailString(str){
     return String(str)
       .toLowerCase()
@@ -16,6 +17,13 @@ class UserAuth extends Crud{
       );
   };
 
+  oneHourFromNow() { 
+    const now = this.nowUTC()
+    const nowParsed = Date.parse(now)
+    const oneHourMS = 60 * 60 * 1000;
+    const inOneHour = nowParsed + oneHourMS;
+    return new Date(inOneHour)
+  }
   /*
     Allow user-registration (see functionalities/USER_REGISTRATION.md) for more deets
     FIRST STEP in user-registration
@@ -24,22 +32,25 @@ class UserAuth extends Crud{
     - create an registration_token or something...
     - send an email to the user with a unique code for them to enter here
   */
-  async registerEmail({email}) { 
+  async registerEmail({ email }) { 
     if (!this.validateEmailString(email)) { 
       throw new Error(`Cannot call registerEmail without a valid email address`)
     }
 
-    let now = this.nowUTC()
-    let expirationTime;
     try {
-      await this.createOne({
+      let newUser = await this.createOne({
         email,
-        created_date: now,
-        registration_expires: 
+        created_date: this.nowUTC(),
+        registration_expires: this.oneHourFromNow()
       })
       
+      return true;
+      
     } catch (e) { 
-      console.log(`userAuth registerEmail`)
+      console.log('userAuth registerEmail Error')
+      console.log(e.message)
+      console.log(e)
+      throw new Error(e)
     }
   }
 

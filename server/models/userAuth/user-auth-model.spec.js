@@ -35,6 +35,13 @@ describe('UserAuth Model', () => {
   })
 
   describe('methods', () => {
+    describe('oneHourFromNow', () => { 
+      it('works', () => { 
+        const timeRes = Cat.oneHourFromNow()
+        expect(typeof timeRes).toBe('object')
+      })
+      
+    })
     describe('validateEmail', () => { 
       const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
       const passingArr = ['juice@box.com', 'water@melon.com', 'water.melon@hotSauce.com']
@@ -70,8 +77,8 @@ describe('UserAuth Model', () => {
       })
 
       it('works', async () => { 
-        const res = await Cat.registerEmail({email: 'horse@sauce.com'})
-        expect(res).toBe('UserAuth signupMethod Here')
+        const res = await Cat.registerEmail({ email: 'horse@sauce.com' })
+        expect(res).toBe(true)
       })
     })
 
@@ -88,6 +95,22 @@ describe('UserAuth Model', () => {
     it('requestPwReset', () => { 
       let res = Cat.requestPwReset()
       expect(res).toBe('UserAuth requestPwReset Here')
+    })
+  })
+
+  describe('ERR methods', () => { 
+    beforeEach(async () => { 
+      await TestMongoClient.close();
+    })
+    afterEach(async () => { 
+      await TestMongoClient.connect();
+    })
+    it('registerEmail', async () => { 
+      try {
+        await Cat.registerEmail({email:'failable@user.emailaddress'})
+      } catch (e) { 
+        expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
+      }
     })
   })
 })
