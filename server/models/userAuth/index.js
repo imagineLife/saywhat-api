@@ -6,6 +6,7 @@ class UserAuth extends Crud{
     this.db = props.db
     this.collectionName = props.collection;
     this.collection = this.db.collection(props.collection);
+    this.registration_exp_duration = 60 * 60 * 1000;
   }
 
   async createOne(obj) {
@@ -35,8 +36,7 @@ class UserAuth extends Crud{
   oneHourFromNow() { 
     const now = this.nowUTC()
     const nowParsed = Date.parse(now)
-    const oneHourMS = 60 * 60 * 1000;
-    const inOneHour = nowParsed + oneHourMS;
+    const inOneHour = nowParsed + this.registration_exp_duration;
     return new Date(inOneHour)
   }
   /*
