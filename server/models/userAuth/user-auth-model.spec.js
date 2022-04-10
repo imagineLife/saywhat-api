@@ -57,8 +57,8 @@ describe('UserAuth Model', () => {
       })
     })
     describe('registerEmail', () => { 
-      describe('returns error without...', () => {
-        it('email param', async () => { 
+      describe('returns error...', () => {
+        it('without email param', async () => { 
           try {
             await Cat.registerEmail()
           } catch (e) {
@@ -76,15 +76,69 @@ describe('UserAuth Model', () => {
         })
       })
 
-      it('works', async () => { 
-        const res = await Cat.registerEmail({ email: 'horse@sauce.com' })
-        expect(res).toBe(true)
+      describe('works', () => { 
+        let res;
+        const registerEmailStr = 'horse@sauce.com'
+        
+        beforeAll(async () => { 
+          await Cat.deleteOne({id: registerEmailStr})
+        })
+        afterAll(async () => { 
+          await Cat.deleteOne({id: registerEmailStr})
+        })
+        
+        it('method returns expected object', async () => { 
+          res = await Cat.registerEmail({ email: registerEmailStr })          
+
+          // types
+          expect(typeof res).toBe('object');
+          expect(typeof res.insertedId).toBe('string')
+          expect(typeof res.acknowledged).toBe('boolean') 
+
+          // res object inspection
+          expect(Object.keys(res).length).toBe(2)
+          expect(res.acknowledged).toBe(true)
+          expect(res.insertedId).toBe(registerEmailStr)
+        })
+        
+        it('GETS user from db by id && assures expected fields exist', async () => { 
+          let foundUser = await Cat.readOne({ _id: res.insertedId })
+          console.log('foundUser')
+          console.log(foundUser)
+          
+          expect(foundUser._id).toBe(registerEmailStr)
+          expect(typeof foundUser.created_date).toBe('object')
+          expect(typeof foundUser.registration_expires).toBe('object')
+        })
       })
     })
 
-    it('validateEmail', () => { 
-      let res = Cat.validateEmail()
-      expect(res).toBe('UserAuth validateEmail Here')
+    describe('validateEmail', () => { 
+      const validateEmailStr = 'validate@email.stringtest';
+      let createUserRes;
+
+      beforeEach(async () => { 
+        await Cat.deleteOne({id: validateEmailStr})
+      })
+      afterEach(async () => { 
+        await Cat.deleteOne({id: validateEmailStr})
+      })
+    
+      describe('fails when', () => { 
+        it('bad user email address', async () => { 
+          createUserRes = await Cat.registerEmail({ email: validateEmailStr });
+          try {
+            let res = await Cat.validateEmail({ email: 'water@mel-uhn' })
+          } catch (e) { 
+            expect(e.message).toBe('Cannot call validateEmail without a valid email address')
+          }
+        })
+        it('user email is not present', async () => { 
+          createUserRes = await Cat.registerEmail({ email: validateEmailStr });
+          let res = await Cat.validateEmail({ email: 'thisUser@isnot.present' })
+          expect(res).toBe(false)
+        })
+      })
     })
 
     it('setPW', () => { 
