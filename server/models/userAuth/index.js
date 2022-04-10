@@ -8,6 +8,21 @@ class UserAuth extends Crud{
     this.collection = this.db.collection(props.collection);
   }
 
+  async createOne(obj) {
+    if (!this.validateEmailString(obj.email)) { 
+      throw new Error(`Cannot call UserAuth createOne without a valid email address`)
+    }
+    try {
+      return await this.collection.insertOne({
+        ...obj,
+        _id: obj.email
+      })
+    } catch (e) { 
+      console.log(`${this.collectionName} createOne error`)
+      throw new Error(e)
+    }
+  }
+
   // regex validates that string is indeed an email address string
   validateEmailString(str){
     return String(str)
@@ -44,7 +59,7 @@ class UserAuth extends Crud{
         registration_expires: this.oneHourFromNow()
       })
       
-      return true;
+      return newUser;
       
     } catch (e) { 
       console.log('userAuth registerEmail Error')
@@ -63,8 +78,16 @@ class UserAuth extends Crud{
     ALSO
     - used when user "forgets" or wants to "reset" their pw...hmm
   */ 
-  validateEmail() { 
-    return 'UserAuth validateEmail Here'
+  async validateEmail({ email }) { 
+    if (!this.validateEmailString(email)) { 
+      throw new Error(`Cannot call validateEmail without a valid email address`)
+    }
+
+    let foundUser = await this.readOne({_id: email})
+    
+    if (!foundUser) { 
+      return false;
+    }
   }
 
   /*
