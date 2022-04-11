@@ -35,6 +35,17 @@ describe('UserAuth Model', () => {
   })
 
   describe('methods', () => {
+    
+    describe('createOne', () => { 
+      it('fails with invalid email string', async () => { 
+        try { 
+          await Cat.createOne({email: 'horse'})
+        } catch (e) {
+          expect(e.message).toBe(`Cannot call UserAuth createOne without a valid email address`)
+        }
+      })
+    })
+
     describe('oneHourFromNow', () => { 
       it('works', () => { 
         const timeRes = Cat.oneHourFromNow()
@@ -42,7 +53,25 @@ describe('UserAuth Model', () => {
       })
       
     })
-    describe('validateEmail', () => { 
+
+    describe('registrationExpired', () => {
+      it('returns false with timestamps is now', () => { 
+        let now = new Date()
+        let nowInMS = Date.parse(now)
+        let overAnHourAgo = nowInMS - Cat.registration_exp_duration - 10
+        let hourAgoDate = new Date(overAnHourAgo)
+        let expired = Cat.registrationExpired(hourAgoDate)
+        expect(expired).toBe(true)
+      })
+
+      it('returns true with timestamps is 1 hour - 10 ms ago', () => { 
+        let now = new Date()
+        let expired = Cat.registrationExpired(now)
+        expect(expired).toBe(false)
+      })
+    })
+
+    describe('validateEmailString', () => { 
       const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
       const passingArr = ['juice@box.com', 'water@melon.com', 'water.melon@hotSauce.com']
       describe('fails with...', () => { 
@@ -56,6 +85,7 @@ describe('UserAuth Model', () => {
         })
       })
     })
+
     describe('registerEmail', () => { 
       describe('returns error...', () => {
         it('without email param', async () => { 
@@ -103,9 +133,6 @@ describe('UserAuth Model', () => {
         
         it('GETS user from db by id && assures expected fields exist', async () => { 
           let foundUser = await Cat.readOne({ _id: res.insertedId })
-          console.log('foundUser')
-          console.log(foundUser)
-          
           expect(foundUser._id).toBe(registerEmailStr)
           expect(typeof foundUser.created_date).toBe('object')
           expect(typeof foundUser.registration_expires).toBe('object')
@@ -138,6 +165,14 @@ describe('UserAuth Model', () => {
           let res = await Cat.validateEmail({ email: 'thisUser@isnot.present' })
           expect(res).toBe(false)
         })
+      })
+
+      it('returns true from email created now', async () => {
+        // create user
+        createUserRes = await Cat.registerEmail({ email: validateEmailStr })   
+        let validateEmailRes = await Cat.validateEmail({email: createUserRes.insertedId })
+        expect(validateEmailRes).toBe(true)
+        // validate user
       })
     })
 

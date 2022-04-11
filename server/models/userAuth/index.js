@@ -6,7 +6,7 @@ class UserAuth extends Crud{
     this.db = props.db
     this.collectionName = props.collection;
     this.collection = this.db.collection(props.collection);
-    this.registration_exp_duration = 60 * 60 * 1000;
+    this.registration_exp_duration = (60 * 60 * 1000);
   }
 
   async createOne(obj) {
@@ -38,6 +38,11 @@ class UserAuth extends Crud{
     const nowParsed = Date.parse(now)
     const inOneHour = nowParsed + this.registration_exp_duration;
     return new Date(inOneHour)
+  }
+
+  registrationExpired(timeToCheck) { 
+    let curTime = this.nowUTC()
+    return Date.parse(timeToCheck) < (Date.parse(curTime) - this.registration_exp_duration)
   }
   /*
     Allow user-registration (see functionalities/USER_REGISTRATION.md) for more deets
@@ -83,10 +88,14 @@ class UserAuth extends Crud{
       throw new Error(`Cannot call validateEmail without a valid email address`)
     }
 
-    let foundUser = await this.readOne({_id: email})
+    let foundUser = await this.readOne({ _id: email }, {registration_expires: 1})
     
-    if (!foundUser) { 
-      return false;
+    if (!foundUser) return false;
+    
+    if (this.registrationExpired(foundUser.registration_expires)) {
+      return 'expired';
+    } else { 
+      return true;
     }
   }
 
