@@ -161,9 +161,24 @@ describe('UserAuth Model', () => {
           }
         })
         it('user email is not present', async () => { 
-          createUserRes = await Cat.registerEmail({ email: validateEmailStr });
           let res = await Cat.validateEmail({ email: 'thisUser@isnot.present' })
           expect(res).toBe(false)
+        })
+        it('user email is present and registration has expired (hack for test)', async () => { 
+          // set the registration_expires to several hours ago
+          createUserRes = await Cat.registerEmail({ email: validateEmailStr });
+          let now = new Date()
+          let nowMS = Date.parse(now)
+          let severalHoursAgo = nowMS - (Cat.registration_exp_duration * 7)
+          let parsedOlderDate = new Date(severalHoursAgo)
+          let updateRes = await Cat.updateOne({ _id: validateEmailStr }, { registration_expires: parsedOlderDate })
+          
+
+          // attempt
+          let emailValidated = await Cat.validateEmail({ email: validateEmailStr })
+          
+          // assert
+          expect(emailValidated).toBe('expired')
         })
       })
 
