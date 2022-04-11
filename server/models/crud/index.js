@@ -28,9 +28,9 @@ class Crud extends DB{
     }
   }
 
-  async readOne(obj){
-     try {
-      return await this.collection.findOne(obj)
+  async readOne(obj, optionalProjection = {}) {
+    try {
+      return await this.collection.findOne(obj, {projection: optionalProjection})
     } catch (e) { 
       console.log(`${this.collectionName} readOne error`)
       throw new Error(e)
