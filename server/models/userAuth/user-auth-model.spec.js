@@ -36,6 +36,12 @@ describe('UserAuth Model', () => {
 
   describe('methods', () => {
     
+    it('hashVal... returns a hash?!', () => { 
+      const input = 'testString';
+      const output = "c48af5a7f6d4a851fc8a434eed638ab1a6ef68e19dbcae894ac67c9fbc5bcb0182b8e7123b3df3c9e4dcb7690c23103f03dc17f54352071ceb2a4eb204b26b91"
+      let res = Cat.hashVal(input)
+      expect(res).toBe(output)
+    })
     describe('createOne', () => { 
       it('fails with invalid email string', async () => { 
         try { 
