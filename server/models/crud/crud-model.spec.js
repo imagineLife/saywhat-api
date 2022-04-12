@@ -50,7 +50,7 @@ describe('Crud Model', () => {
       expect(testFoundObj.dog).toBe('horse')
     })
     describe('updateOne', () => {
-      const updateObj = { 'water': 'melon' };
+      const updateObj = { $set: { 'water': 'melon' } };
       let expectedResObjKeys = {
         acknowledged: true,
         modifiedCount: 1,
@@ -147,7 +147,7 @@ describe('Crud Model', () => {
     })
     it('updateOne', async () => {
       try {
-        await Cat.updateOne({ _id: testCreatedObject.insertedId }, {poiu: 'lkjh'})
+        await Cat.updateOne({ _id: testCreatedObject.insertedId }, { $set: { poiu: 'lkjh' } })
       } catch (e) { 
         expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
       }

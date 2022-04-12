@@ -42,7 +42,7 @@ class Crud extends DB{
       throw new Error(`Cannot call ${this.collectionName}.updateOne without 2 object params: 1 the find obj, 2 the update obj`)
     }
      try {
-      return await this.collection.updateOne(findObj, { $set: updateObj })
+      return await this.collection.updateOne(findObj, updateObj)
      } catch (e) { 
       console.log(`${this.collectionName} updateOne error`)
       throw new Error(e)
