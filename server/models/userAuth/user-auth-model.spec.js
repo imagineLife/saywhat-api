@@ -177,7 +177,7 @@ describe('UserAuth Model', () => {
           let nowMS = Date.parse(now)
           let severalHoursAgo = nowMS - (Cat.registration_exp_duration * 7)
           let parsedOlderDate = new Date(severalHoursAgo)
-          let updateRes = await Cat.updateOne({ _id: validateEmailStr }, { registration_expires: parsedOlderDate })
+          let updateRes = await Cat.updateOne({ _id: validateEmailStr }, { $set: { registration_expires: parsedOlderDate } })
           
 
           // attempt
@@ -197,11 +197,43 @@ describe('UserAuth Model', () => {
       })
     })
 
-    it('setPW', () => { 
-      let res = Cat.setPW()
-      expect(res).toBe('UserAuth setPW Here')
-    })
+    describe('setPW', () => { 
+      const validateEmailStr = 'validate@email.stringtest';
+      let createUserRes;
+      
+      describe('fails without', () => { 
+        it('email param', async () => { 
+          try {
+           await Cat.setPW({pw: 'newPW'})
+          } catch (e) {
+            expect(e.message).toBe('cannot call UserAuth.setPW without id or pw')
+          }
+        })
 
+        it('pw param', async () => { 
+          try {
+            await Cat.setPW({email: 'dummy@email.com'})
+          } catch (e) {
+            expect(e.message).toBe('cannot call UserAuth.setPW without id or pw')
+          }
+        })
+      })
+
+      it('succeeds', async () => {
+        createUserRes = await Cat.registerEmail({ email: validateEmailStr })   
+        let validateEmailRes = await Cat.validateEmail({email: createUserRes.insertedId })
+        let res = await Cat.setPW({
+          email: createUserRes.insertedId,
+          pw: 'new-pw-who-dis'
+        })
+        const expectedRes = {"acknowledged": true, "matchedCount": 1, "modifiedCount": 1, "upsertedCount": 0, "upsertedId": null}
+        expect(res.acknowledged).toBe(expectedRes.acknowledged)
+        expect(res.matchedCount).toBe(expectedRes.matchedCount)
+        expect(res.modifiedCount).toBe(expectedRes.modifiedCount)
+        expect(res.upsertedCount).toBe(expectedRes.upsertedCount)
+        expect(res.upsertedId).toBe(expectedRes.upsertedId)
+      })
+    })
     it('requestPwReset', () => { 
       let res = Cat.requestPwReset()
       expect(res).toBe('UserAuth requestPwReset Here')
@@ -218,6 +250,16 @@ describe('UserAuth Model', () => {
     it('registerEmail', async () => { 
       try {
         await Cat.registerEmail({email:'failable@user.emailaddress'})
+      } catch (e) { 
+        expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
+      }
+    })
+    it('setPW', async () => { 
+      try {
+        await Cat.setPW({
+          email: 'water',
+          pw: 'new-pw-who-dis'
+        })
       } catch (e) { 
         expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
       }

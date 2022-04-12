@@ -112,8 +112,40 @@ class UserAuth extends Crud{
     - sets pw field in user
     - sets last_updated
   */
-  setPW() { 
-    return 'UserAuth setPW Here'
+  async setPW(params) { 
+    if (!params.email || !params.pw) { 
+      throw new Error('cannot call UserAuth.setPW without id or pw')
+    }
+
+    /*
+      - remove registrationExpired field
+      - set pw with hashed val
+      - set last_updated to now
+      - set last_updated_by ?!
+    */ 
+    const now = this.nowUTC()
+    const newPW = this.hashVal(params.pw)
+
+    // mongo docs
+    const selectDoc = { _id: params.email };
+    const updateDoc = [
+      {
+        $set: {
+          "lats_updated": now,
+          "pw": newPW,
+        }
+      },
+      {
+        $unset: "registration_expired"
+      }
+    ]
+
+    try {
+      return await this.updateOne(selectDoc, updateDoc)
+    } catch (e) { 
+      console.log(`UserAuth setPW Error`)
+      throw new Error(e);
+    }
   }
 
   /*
