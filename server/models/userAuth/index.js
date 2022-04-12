@@ -1,5 +1,5 @@
 const { Crud } = require('../crud');
-
+const crypto = require('crypto');
 class UserAuth extends Crud{
   constructor(props) {
     super(props)
@@ -7,6 +7,7 @@ class UserAuth extends Crud{
     this.collectionName = props.collection;
     this.collection = this.db.collection(props.collection);
     this.registration_exp_duration = (60 * 60 * 1000);
+    this.hashType = 'sha515'
   }
 
   async createOne(obj) {
@@ -74,6 +75,9 @@ class UserAuth extends Crud{
     }
   }
 
+  hashVal(str) {
+    return crypto.createHash(this.hashType).update(str).digest('hex');
+  };
   /*
     SECOND STEP in user-registration process
     - check token match
@@ -92,7 +96,11 @@ class UserAuth extends Crud{
     
     if (!foundUser) return false;
     
-    if (this.registrationExpired(foundUser.registration_expires)) {
+    // check if this is during registration workflow
+    if (
+      foundUser?.registration_expires &&
+      this.registrationExpired(foundUser.registration_expires)
+    ) {
       return 'expired';
     } else { 
       return true;
