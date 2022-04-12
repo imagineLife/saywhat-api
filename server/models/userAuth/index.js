@@ -11,7 +11,7 @@ class UserAuth extends Crud{
   }
 
   async createOne(obj) {
-    if (!this.validateEmailString(obj.email)) { 
+    if (!this.isAnEmailString(obj.email)) { 
       throw new Error(`Cannot call UserAuth createOne without a valid email address`)
     }
     try {
@@ -26,7 +26,7 @@ class UserAuth extends Crud{
   }
 
   // regex validates that string is indeed an email address string
-  validateEmailString(str){
+  isAnEmailString(str){
     return String(str)
       .toLowerCase()
       .match(
@@ -54,7 +54,7 @@ class UserAuth extends Crud{
     - send an email to the user with a unique code for them to enter here
   */
   async registerEmail({ email }) { 
-    if (!this.validateEmailString(email)) { 
+    if (!this.isAnEmailString(email)) { 
       throw new Error(`Cannot call registerEmail without a valid email address`)
     }
 
@@ -88,7 +88,7 @@ class UserAuth extends Crud{
     - used when user "forgets" or wants to "reset" their pw...hmm
   */ 
   async validateEmail({ email }) { 
-    if (!this.validateEmailString(email)) { 
+    if (!this.isAnEmailString(email)) { 
       throw new Error(`Cannot call validateEmail without a valid email address`)
     }
 
@@ -114,7 +114,7 @@ class UserAuth extends Crud{
   */
   async setPW(params) { 
     if (!params.email || !params.pw) { 
-      throw new Error('cannot call UserAuth.setPW without id or pw')
+      throw new Error('cannot call UserAuth.setPW without email or pw')
     }
 
     /*
@@ -146,6 +146,16 @@ class UserAuth extends Crud{
       console.log(`UserAuth setPW Error`)
       throw new Error(e);
     }
+  }
+
+  async validatePW(params) {
+    if (!params.email || !params.pw) { 
+      throw new Error('cannot call UserAuth.validatePW without email or pw')
+    }
+
+    const userPW = this.hashVal(params.pw)
+    let res = await this.readOne({ _id: params.email }, { _id: 0, pw: 1 })
+    return userPW == res.pw
   }
 
   /*

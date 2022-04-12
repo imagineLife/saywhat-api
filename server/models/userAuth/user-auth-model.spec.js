@@ -77,17 +77,17 @@ describe('UserAuth Model', () => {
       })
     })
 
-    describe('validateEmailString', () => { 
+    describe('isAnEmailString', () => { 
       const failArr = ['water@melon', '@melon.sauce', 'water.sauce', 'ice@water@melon.sause.com']
       const passingArr = ['juice@box.com', 'water@melon.com', 'water.melon@hotSauce.com']
       describe('fails with...', () => { 
         it.each(failArr)(`%s`, (str) => { 
-          expect(Cat.validateEmailString(str)).toBe(null)
+          expect(Cat.isAnEmailString(str)).toBe(null)
         })
       })
       describe('passes with...', () => { 
         it.each(passingArr)(`%s`, (passingStr) => { 
-          expect(Cat.validateEmailString(passingStr)[0]).toBe(passingStr.toLowerCase())
+          expect(Cat.isAnEmailString(passingStr)[0]).toBe(passingStr.toLowerCase())
         })
       })
     })
@@ -206,7 +206,7 @@ describe('UserAuth Model', () => {
           try {
            await Cat.setPW({pw: 'newPW'})
           } catch (e) {
-            expect(e.message).toBe('cannot call UserAuth.setPW without id or pw')
+            expect(e.message).toBe('cannot call UserAuth.setPW without email or pw')
           }
         })
 
@@ -214,13 +214,13 @@ describe('UserAuth Model', () => {
           try {
             await Cat.setPW({email: 'dummy@email.com'})
           } catch (e) {
-            expect(e.message).toBe('cannot call UserAuth.setPW without id or pw')
+            expect(e.message).toBe('cannot call UserAuth.setPW without email or pw')
           }
         })
       })
 
       it('succeeds', async () => {
-        createUserRes = await Cat.registerEmail({ email: validateEmailStr })   
+        createUserRes = await Cat.registerEmail({ email: validateEmailStr })
         let validateEmailRes = await Cat.validateEmail({email: createUserRes.insertedId })
         let res = await Cat.setPW({
           email: createUserRes.insertedId,
@@ -232,6 +232,58 @@ describe('UserAuth Model', () => {
         expect(res.modifiedCount).toBe(expectedRes.modifiedCount)
         expect(res.upsertedCount).toBe(expectedRes.upsertedCount)
         expect(res.upsertedId).toBe(expectedRes.upsertedId)
+      })
+    })
+
+    describe('validatePW', () => { 
+      const validatePW = 'validate@email.stringtest';
+      let createUserRes;
+      
+      describe('fails without', () => { 
+        it('email param', async () => { 
+          try {
+           await Cat.validatePW({pw: 'newPW'})
+          } catch (e) {
+            expect(e.message).toBe('cannot call UserAuth.validatePW without email or pw')
+          }
+        })
+
+        it('pw param', async () => { 
+          try {
+            await Cat.validatePW({email: 'dummy@email.com'})
+          } catch (e) {
+            expect(e.message).toBe('cannot call UserAuth.validatePW without email or pw')
+          }
+        })
+      })
+
+      describe('email present', () => { 
+        beforeEach(async () => { 
+          await Cat.deleteOne({id: validatePW})
+        })
+        afterEach(async () => { 
+          await Cat.deleteOne({id: validatePW})
+        })
+        it('returns false when pw is incorrect', async () => { 
+          createUserRes = await Cat.registerEmail({ email: validatePW })
+          let setPWRes = await Cat.setPW({
+            email: createUserRes.insertedId,
+            pw: 'new-pw-who-dis'
+          })
+          let validatePWRes = await Cat.validatePW({email: validatePW, pw: 'failable-pw' })
+          expect(validatePWRes).toBe(false)
+
+        })
+        
+        it('returns true when pw is correct', async () => { 
+          createUserRes = await Cat.registerEmail({ email: validatePW })
+          let setPWRes = await Cat.setPW({
+            email: createUserRes.insertedId,
+            pw: 'new-pw-who-dis'
+          })
+           let validatePWRes = await Cat.validatePW({email: validatePW, pw: 'new-pw-who-dis' })
+          expect(validatePWRes).toBe(true)
+        })
       })
     })
     it('requestPwReset', () => { 
