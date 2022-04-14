@@ -2,9 +2,6 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 
 module.exports = (env) => {  
-  // console.log('webpackmodule.exports vars')
-  // console.log(env)
-  
   return {
     entry: './index.js',
     output: {

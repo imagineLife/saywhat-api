@@ -6,7 +6,9 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
 - [Goals](#goals)
   - [DB Dependent](#db-dependent)
     - [Event-Driven DB Config](#event-driven-db-config)
-  - [CRUD Accounts](#crud-accounts)
+- [User Account APIS](#user-account-apis)
+  - [Register Account](#register-account)
+  - [Forgot + Reset PW](#forgot--reset-pw)
     - [admin details later](#admin-details-later)
   - [CRUD Text](#crud-text)
     - [Store Text](#store-text)
@@ -38,7 +40,7 @@ The db connection will be event-driven.
 - an event that triggers the "knowledge" ofa db error (_and/or disconnection_)
   - this will update the api to return errors to the client during unforeseen db down time
 
-## CRUD Accounts
+# User Account APIS
 As a user I can 
 - [ ] Create my account with attributes
   - [ ] first name
@@ -46,8 +48,25 @@ As a user I can
   - [ ] email address
   - [ ] password
     - pw stored as one-way non-readable hashed vals
-- [ ] Edit my account attributes
 
+## Register Account
+- [ ] Go through an account registration workflow
+  - [ ] Sign-up (_register email address_)
+  - [ ] validate email
+  - [ ] save password
+
+## Forgot + Reset PW
+- [ ] Forgot password workflow
+  - enter email 
+  - click submit 
+  - check email
+  - click a button in the email or get code from email
+  - enter code in ui for email validation
+  - enter new pw
+- [ ] Reset pw
+  - enter current pw
+  - enter new pw
+  - submit
 ### admin details later
 As an client with "admin" type user credentials, I can
 - [ ] Get List of user accounts
