@@ -1,4 +1,7 @@
-const router = require('express').Router({mergeParams: true})
+/*
+  dependencies
+*/ 
+const router = require('express').Router({ mergeParams: true })
 const {
   routes: {
     USERS
@@ -8,6 +11,9 @@ const rootRouter = require('./root');
 const byIdRouter = require('./byId');
 
 
+/*
+  register handlers
+*/ 
 router.use(USERS.BY_ID, byIdRouter)
 router.use(`/?`, rootRouter)
 

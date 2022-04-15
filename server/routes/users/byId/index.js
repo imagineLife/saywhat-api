@@ -1,8 +1,8 @@
 const router = require('express').Router({ mergeParams: true })
-const getById = require('./get')
-const patchById = require('./patch')
+const getHandler = require('./get')
+const patchHandler = require('./patch')
 
-router.get(`/`, getById)
-router.patch(`/`, patchById)
+router.get(`/`, getHandler)
+router.patch(`/`, patchHandler)
 
 module.exports = router;

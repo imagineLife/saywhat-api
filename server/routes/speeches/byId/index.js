@@ -7,7 +7,7 @@ const {
 
 const getById = require('./get');
 
-// summary of speeches
+// single speed info
 router.get(`/`, getById)
 
 module.exports = router;

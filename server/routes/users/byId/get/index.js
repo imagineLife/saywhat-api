@@ -1,5 +1,5 @@
-function getUsers(req, res, next) { 
-  return res.status(200).send('get user by id')
+function getById(req, res, next) { 
+  return res.status(200).json(`getById: ${req.params.userId}`)
 }
 
-module.exports = getUsers;
+module.exports = getById;
