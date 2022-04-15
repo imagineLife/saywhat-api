@@ -1,4 +1,4 @@
-const getUserById = require('./');
+const getUserById = require('.');
  
 describe('Users:id - GET', () => { 
   it('returns expected res', () => { 
