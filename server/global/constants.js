@@ -7,7 +7,11 @@ const state = {
       ROOT: '/db',
       STATUS: '/status'
     },
-    USERS: '/users',
+    USERS: {
+      ROOT: '/users',
+      BY_EMAIL: '/:id',
+      AUTH: '/auth'
+    },
     SPEECHES: {
       ROOT: '/speeches',
       BY_ID: '/:speechId'
