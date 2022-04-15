@@ -9,7 +9,7 @@ const state = {
     },
     USERS: {
       ROOT: '/users',
-      BY_EMAIL: '/:id',
+      BY_ID: '/:id',
       AUTH: '/auth'
     },
     SPEECHES: {
