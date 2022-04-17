@@ -10,14 +10,12 @@ const { ServicesEmitter } = require('./global')
 const { db: {
   NAME: DB_NAME,
   collections: {
-    USERS,
-    SPEECHES
+    USERS
   }
 } } = require('./global/constants')
-const { GLOBAL_STATE } = require('./global')
+let globalContent = require('./global')
 async function startApi(){
   try{
-    startServer(expressObj)
 
     if (!process.env.DB || process.env.DB === true) {
       const db_obj = {
@@ -30,32 +28,21 @@ async function startApi(){
       let SayWhatMongoClient = await setupDB({ ...db_obj })
       let sayWhatDB = SayWhatMongoClient.registerDB(DB_NAME)
 
-      /* Register */
-      let Speeches = new Crud({
-        db: sayWhatDB,
-        collection: SPEECHES
-      })
-
-      GLOBAL_STATE.Collections.Speeches = Speeches;
-
-
-
-      // let res = await users.createOne({water: 'melon'})
-      // delete res.acknowledged;
-      // console.log('----create-user-res----')
-      // console.log(res)
-      // console.log('res.insertedId')
-      // console.log(res.insertedId)
+      /* 
+        Register Collections 
+        - Users
+      */
       
-      // let found = await users.readOne({_id: res.insertedId})
-      // console.log('found')
-      // console.log(found)
-
-      // let updated = await users.updateOne({ horse: 'dog' }, { water: 'lemon' })
-      // console.log('updated')
-      // console.log(updated)
+      let UsersCollection = new Crud({
+        db: sayWhatDB,
+        collection: USERS
+      })
+      
+      globalContent.GLOBAL_STATE.Collections.Users = UsersCollection;
       
     }
+
+    startServer(expressObj)
   }catch(e){
     console.log(e)
   }
