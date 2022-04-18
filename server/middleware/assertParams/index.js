@@ -35,18 +35,22 @@ function assertParams(paramsObj) {
         */
         for (let ek = 0; ek < expectedKeys.length; ek++) {
           let thisExpectedKey = expectedKeys[ek];
-          if (!req[thisSource][thisExpectedKey]) {            
-            return res.status(422).json({ Error: 'missing required params'});
+          if (!req[thisSource][thisExpectedKey]) {
+            return res.status(422).json({ Error: 'missing required params' });
           }
         }
       }
       return next();
     } catch (error) {
+      console.log('assertParams Error:');
+      console.log(error.message);
+      console.log(error)
+      
       throw new Error(error);
     }
   };
 }
 
 module.exports = {
-  assertParams
+  assertParams,
 };
