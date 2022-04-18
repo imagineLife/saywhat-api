@@ -13,7 +13,7 @@
     "start-local": "NODE_ENV=development PORT=3000 MONGO_AUTH=false MONGO_DB_HOST=localhost MONGO_DB_PORT=27017 MONGO_DB_AUTH_DB=admin node .",
     "test": "jest",
     "test:coverage": "jest --coverage --maxWorkers=1 --verbose",
-    "tcw": "jest --coverage --verbose --watch"
+    "tcw": "jest --coverage --maxWorkers=1 --verbose --watch"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/imagineLife/saywhat-api#readme",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "express": "^4.17.3",
     "mongodb": "^4.5.0"
   },
