@@ -1,5 +1,6 @@
-const { jest : { coverageThreshold } } = require('./package.json');
+const { jest: { coverageThreshold, setupFilesAfterEnv } } = require('./package.json');
 
 module.exports = {
-  coverageThreshold
-}
+  coverageThreshold,
+  setupFilesAfterEnv
+};
