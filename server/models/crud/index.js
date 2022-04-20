@@ -66,8 +66,6 @@ class Crud extends DB{
 
   async remove() { 
     try {
-      console.log(`DROPPING ${this.collectionName}`)
-      
       return await this.collection.drop()
     } catch (e) { 
       console.log(`${this.collectionName} drop error`)
