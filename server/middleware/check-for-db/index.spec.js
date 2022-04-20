@@ -17,7 +17,7 @@ describe('checkForDbConnection', () => {
       const mockRes = mockResponse();
 
       let res = checkForDbConnection(mockReq, mockRes, mockCB)
-      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.status).toHaveBeenCalledWith(500);
       expect(res.send).toHaveBeenCalledWith({Error: "Server Error, try again shortly"});
 
     })
