@@ -1,24 +1,29 @@
 const { Crud } = require('.');
 const { setupDB } = require('./../../server-setup');
 
-
 describe('Crud Model', () => { 
   let TestMongoClient;
   let TestSayWhat;
   let Cat;
   let testCreatedObject;
+  const DB_NAME = 'TestSayWhat'
+  const COLL_NAME = 'TestCollection'
+  const db_obj = {
+    host: 'localhost',
+    port: '27017',
+  };
   beforeAll(async () => {
     process.env.MONGO_AUTH = false;
-    const db_obj = {
-      host: 'localhost',
-      port: '27017'
-    }
     TestMongoClient = await setupDB({ ...db_obj })
-    TestSayWhat = TestMongoClient.registerDB('TestSayWhat')
-    Cat = new Crud({ db: TestSayWhat, collection: 'TestCollection' })
+    TestSayWhat = TestMongoClient.registerDB(DB_NAME)
+    Cat = new Crud({ db: TestSayWhat, collection: COLL_NAME })
   })
 
   afterAll(async () => { 
+    TestMongoClient = await setupDB({ ...db_obj })
+    TestSayWhat = TestMongoClient.registerDB(DB_NAME)
+    Cat = new Crud({ db: TestSayWhat, collection: COLL_NAME })
+    await Cat.remove()
     await TestMongoClient.close()
   })
 
@@ -60,10 +65,8 @@ describe('Crud Model', () => {
       }
       let testUpdateRes;
 
-      beforeAll(async () => {
+      it('acknowledged === true', async () => {
         testUpdateRes = await Cat.updateOne({ _id: testCreatedObject.insertedId }, updateObj)
-      })
-      it('acknowledged === true', () => {
         expect(testUpdateRes.acknowledged).toBe(true)
       })
       it('modifiedCount === 1', () => {
@@ -121,6 +124,22 @@ describe('Crud Model', () => {
         })
       })
     })
+
+    describe('drop', () => {
+      it('calls "drop" on remove', async () => {
+        const MOCK_RETURN = 'this is a dummy string'
+        const dropSpy = jest.spyOn(Cat.collection, 'drop').mockResolvedValueOnce(MOCK_RETURN);
+        try {
+          let testRes = await Cat.remove()
+          expect(testRes).toBe(MOCK_RETURN);
+        } catch (e) {
+          console.log('drop test err')
+          console.log(e.message)
+          
+        }
+      })
+    })
+
   })
 
   describe('errors throw when db is disconnected', () => { 
@@ -159,5 +178,14 @@ describe('Crud Model', () => {
         expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
       }
     })
+    it('remove', async () => {
+      try {
+        await Cat.remove();
+      } catch (e) {
+        expect(e.message).toBe(
+          'MongoNotConnectedError: MongoClient must be connected to perform this operation'
+        );
+      }
+    });
   })
 })
