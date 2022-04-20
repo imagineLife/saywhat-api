@@ -9,19 +9,26 @@ describe('UserAuth Model', () => {
   let TestSayWhat;
   let Cat;
   let testCreatedObject;
+  const db_obj = {
+    host: 'localhost',
+    port: '27017',
+  };
   beforeAll(async () => {
     process.env.MONGO_AUTH = false;
-    const db_obj = {
-      host: 'localhost',
-      port: '27017'
-    }
     TestMongoClient = await setupDB({ ...db_obj });
     TestSayWhat = TestMongoClient.registerDB(DB_NAME);
     Cat = new UserAuth({ db: TestSayWhat, collection: COLL_NAME });
+    await Cat.deleteOne({ id: 'horse@sauce.com' });
   })
 
   afterAll(async () => { 
-    await TestMongoClient.close()
+    try {
+      await TestMongoClient.close()
+    } catch (e) { 
+      console.log('afterAll catch error')
+      console.log(e.message)
+      
+    }
   })
 
   it('Crud.collectionName matches input param', () => { 
@@ -115,13 +122,6 @@ describe('UserAuth Model', () => {
       describe('works', () => { 
         let res;
         const registerEmailStr = 'horse@sauce.com'
-        
-        beforeAll(async () => { 
-          await Cat.deleteOne({id: registerEmailStr})
-        })
-        afterAll(async () => { 
-          await Cat.deleteOne({id: registerEmailStr})
-        })
         
         it('method returns expected object', async () => { 
           res = await Cat.registerEmail({ email: registerEmailStr })          
@@ -292,29 +292,27 @@ describe('UserAuth Model', () => {
     })
   })
 
-  describe('ERR methods', () => { 
-    beforeEach(async () => { 
+  it('ERR on registerEmail when no db connection', async () => { 
+    try {
       await TestMongoClient.close();
-    })
-    afterEach(async () => { 
+      await Cat.registerEmail({email:'failable@user.emailaddress'})
+    } catch (e) { 
+      expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
+    } finally {
       await TestMongoClient.connect();
-    })
-    it('registerEmail', async () => { 
-      try {
-        await Cat.registerEmail({email:'failable@user.emailaddress'})
-      } catch (e) { 
-        expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
-      }
-    })
-    it('setPW', async () => { 
-      try {
-        await Cat.setPW({
-          email: 'water',
-          pw: 'new-pw-who-dis'
-        })
-      } catch (e) { 
-        expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
-      }
-    })
+    }
+  })
+  it('ERR on setPW when no db connection', async () => { 
+    try {
+      await TestMongoClient.close();
+      await Cat.setPW({
+        email: 'water',
+        pw: 'new-pw-who-dis'
+      })
+    } catch (e) { 
+      expect(e.message).toBe('Error: MongoNotConnectedError: MongoClient must be connected to perform this operation')
+    } finally {
+      await TestMongoClient.connect();
+    }
   })
 })
