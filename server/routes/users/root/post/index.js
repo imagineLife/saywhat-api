@@ -9,8 +9,11 @@ const {
 
 async function postUsers(req, res, next) { 
   try {
+    let {
+      body: { first, email }
+    } = req;
     let { Users } = Collections;
-    let createdUser = await Users.createOne({ asdf: 'sdfg' })
+    let createdUser = await Users.createOne({ email, first })
     return res.status(200).json({works: 'qwer'})
   } catch (e) { 
     console.log('postUsers error:')
