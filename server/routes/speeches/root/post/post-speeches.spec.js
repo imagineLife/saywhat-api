@@ -83,4 +83,22 @@ describe(`${ROOT}: POST`, function () {
       expect(res.body).toBe('success');
     });
   })
+
+  describe('Errors', () => { 
+    it('when collection is not stored in global state', async () => {
+      await TestSpeechesCollection.createOne({ horse: 'dog' });
+
+      // trigger an error with no global User val
+      Collections.Speeches = null;
+
+      // try {
+      const res = await chai.request(localServerObj).post(`${ROOT}`).send({
+        orator: '1234',
+        date: 'qwer',
+        text: '1234',
+      });
+      expect(res.status).toBe(500);
+      expect(res.body.Error).toBe('Server error');
+    });
+  })
 });
