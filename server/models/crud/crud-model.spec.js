@@ -54,6 +54,15 @@ describe('Crud Model', () => {
       expect(testCreatedObject.insertedId.toString()).toBe(testFoundObj._id.toString())
       expect(testFoundObj.dog).toBe('horse')
     })
+    it('readMany', async () => {
+      const testSecondObj = { cat: 'ralph' };
+      const testSecondCreatedObject = await Cat.createOne(testSecondObj);
+      console.log('testSecondCreatedObject')
+      console.log(testSecondCreatedObject)
+      
+      let findManyCursor = await Cat.readMany();
+      expect(await findManyCursor.count()).toBe(2)
+    });
     describe('updateOne', () => {
       const updateObj = { $set: { 'water': 'melon' } };
       let expectedResObjKeys = {
@@ -164,6 +173,15 @@ describe('Crud Model', () => {
         expect(e.message).toBe('MongoNotConnectedError: MongoClient must be connected to perform this operation')
       }
     })
+    it('readOne', async () => {
+      try {
+        await Cat.readMany();
+      } catch (e) {
+        expect(e.message).toBe(
+          'MongoNotConnectedError: MongoClient must be connected to perform this operation'
+        );
+      }
+    });
     it('updateOne', async () => {
       try {
         await Cat.updateOne({ _id: testCreatedObject.insertedId }, { $set: { poiu: 'lkjh' } })
