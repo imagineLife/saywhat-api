@@ -1,9 +1,4 @@
 const router = require('express').Router({mergeParams: true})
-const {
-  routes: {
-    SPEECHES
-  }
-} = require('./../../../global/constants');
 
 const getById = require('./get');
 
