@@ -11,6 +11,8 @@ describe(`${ROOT}:/speechId : GET`, function () {
   let TestMongoClient;
   let localServerObj;
   let TestSpeechCollection;
+  let insertedSpeech;
+  let reqURL;
   beforeAll(async function () {
     process.env.MONGO_AUTH = false;
     if (localServerObj && localServerObj.close) {
@@ -47,7 +49,6 @@ describe(`${ROOT}:/speechId : GET`, function () {
   });
 
   it('successfully gets speech by speechID after speech insert', async () => {
-    let insertedSpeech;
     const mockSpeech = {
       orator: 'Test User',
       date: '1234-23-2345',
@@ -59,7 +60,7 @@ describe(`${ROOT}:/speechId : GET`, function () {
       // insert
       const { insertedId } = await TestSpeechCollection.createOne(mockSpeech);
       insertedSpeech = insertedId;
-      const reqURL = `${ROOT}/${insertedId}`;
+      reqURL = `${ROOT}/${insertedId}`;
       const apiRes = await chai.request(localServerObj).get(reqURL);
       expect(apiRes.body.orator).toBeTruthy();
       expect(apiRes.body.date).toBeTruthy();
@@ -70,5 +71,14 @@ describe(`${ROOT}:/speechId : GET`, function () {
       await TestSpeechCollection.remove()
     }
   });
+
+   it('returns err when collection is not stored in global state', async () => {
+
+     GLOBAL_STATE.Collections.Speeches = null;
+
+     const res = await chai.request(localServerObj).get(reqURL);
+     expect(res.status).toBe(500);
+     expect(res.body.Error).toBe('get speech by id');
+   });
 });
 
