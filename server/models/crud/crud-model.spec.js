@@ -57,11 +57,9 @@ describe('Crud Model', () => {
     it('readMany', async () => {
       const testSecondObj = { cat: 'ralph' };
       const testSecondCreatedObject = await Cat.createOne(testSecondObj);
-      console.log('testSecondCreatedObject')
-      console.log(testSecondCreatedObject)
       
-      let findManyCursor = await Cat.readMany();
-      expect(await findManyCursor.count()).toBe(2)
+      let findManyRes = await Cat.readMany();
+      expect(await findManyRes.length).toBe(2)
     });
     describe('updateOne', () => {
       const updateObj = { $set: { 'water': 'melon' } };
