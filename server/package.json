@@ -45,10 +45,10 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "statements": 98.96,
+        "statements": 99.18,
         "branches": 100,
-        "lines": 98.95,
-        "functions": 97.67
+        "lines": 99.18,
+        "functions": 98
       }
     },
     "setupFilesAfterEnv": [
