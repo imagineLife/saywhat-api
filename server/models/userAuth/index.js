@@ -5,7 +5,6 @@ class UserAuth extends Crud{
     super(props)
     this.db = props.db
     this.collectionName = props.collection;
-    this.collection = this.db.collection(props.collection);
     this.registration_exp_duration = (60 * 60 * 1000);
     this.hashType = 'sha512'
   }
