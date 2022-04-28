@@ -5,7 +5,6 @@ const { routes: { SPEECHES: { ROOT } } } = require('./../../../../global/constan
 const { GLOBAL_STATE } = require('./../../../../global')
 const { startServer, stopServer, expressObj, setupDB } = require('./../../../../server-setup');
 const { Crud } = require('../../../../models');
-// const { MongoClient } = require('mongodb')
 describe(`${ROOT}:/speechId : GET`, function () {
   chai.use(chaiHttp);
   let TestMongoClient;
@@ -55,8 +54,6 @@ describe(`${ROOT}:/speechId : GET`, function () {
       text: 'This is the song that never ends',
     };
     try {
-      console.log('IN TRY')
-      
       // insert
       const { insertedId } = await TestSpeechCollection.createOne(mockSpeech);
       insertedSpeech = insertedId;
