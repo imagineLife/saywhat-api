@@ -14,16 +14,16 @@ describe('Crud Model', () => {
   };
   beforeAll(async () => {
     process.env.MONGO_AUTH = false;
-    TestMongoClient = await setupDB({ ...db_obj })
-    TestSayWhat = TestMongoClient.registerDB(DB_NAME)
-    Cat = new Crud({ db: TestSayWhat, collection: COLL_NAME })
+    TestMongoClient = await setupDB({ ...db_obj });
+    TestSayWhat = TestMongoClient.registerDB(DB_NAME);
+    Cat = new Crud({ db: TestSayWhat, collection: COLL_NAME });
   })
 
   afterAll(async () => { 
     TestMongoClient = await setupDB({ ...db_obj })
     TestSayWhat = TestMongoClient.registerDB(DB_NAME)
     Cat = new Crud({ db: TestSayWhat, collection: COLL_NAME })
-    await Cat.remove()
+    await Cat.remove();
     await TestMongoClient.close()
   })
 
@@ -57,7 +57,6 @@ describe('Crud Model', () => {
     it('readMany', async () => {
       const testSecondObj = { cat: 'ralph' };
       const testSecondCreatedObject = await Cat.createOne(testSecondObj);
-      
       let findManyRes = await Cat.readMany();
       expect(await findManyRes.length).toBe(2)
     });
