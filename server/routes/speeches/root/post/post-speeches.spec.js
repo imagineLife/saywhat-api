@@ -11,7 +11,7 @@ describe(`${ROOT}: POST`, function () {
   let TestMongoClient;
   let TestSpeechesCollection;
   const DB_NAME = 'TestSayWhat';
-  const COLL_NAME = 'TestSpeeches';
+  const COLL_NAME = 'TestPostSpeeches';
   
   
   beforeAll(async () => { 
@@ -34,6 +34,7 @@ describe(`${ROOT}: POST`, function () {
   })
 
   afterAll(async () => { 
+    await TestSpeechesCollection.remove();
     Collections.Speeches = null;
     await TestMongoClient.close()
     if (localServerObj && localServerObj.close) {
