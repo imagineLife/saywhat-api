@@ -40,8 +40,12 @@ jobs:
             ${{runner.os}}-server-node-mods-key-
           # ONCE workflow is done, github caches the hashed package-lock with the key :) 
           #   a post cache step gets added to the workflow by this action lib
+      
+      #  install deps
+      - run: cd server && npm ci && cd ..
+        
       - name: API Unit Tests
-        run: cd server && npm i && npm run test:coverage
+        run: cd server && npm run test:coverage
       # - uses: ArtiomTr/jest-coverage-report-action@v2
       #   with:
       #     working-directory: server
@@ -52,7 +56,6 @@ jobs:
           # files: ./coverage1.xml,./coverage2.xml # optional
           # flags: unittests # optional
           name: Upload Coverage to CodeCov # optional
-          working-directory: server
           files: ./server/coverage/clover.xml
   # build-and-deploy:
   #   runs-on: ubuntu-latest
