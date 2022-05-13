@@ -40,10 +40,17 @@ jobs:
             ${{runner.os}}-server-node-mods-key-
           # ONCE workflow is done, github caches the hashed package-lock with the key :) 
           #   a post cache step gets added to the workflow by this action lib
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+      # - uses: ArtiomTr/jest-coverage-report-action@v2
+      #   with:
+      #     working-directory: server
+      #     annotations: none
+      - uses: codecov/codecov-action@v2
         with:
+          # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          # files: ./coverage1.xml,./coverage2.xml # optional
+          # flags: unittests # optional
+          name: api-coverage # optional
           working-directory: server
-          annotations: none
   # build-and-deploy:
   #   runs-on: ubuntu-latest
   #   needs: ["api-coverage"]
