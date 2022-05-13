@@ -51,9 +51,10 @@ jobs:
           # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           # files: ./coverage1.xml,./coverage2.xml # optional
           # flags: unittests # optional
-          name: api-coverage # optional
-          directory: server/coverage/lcov-report
+          name: Upload Coverage to CodeCov # optional
+          directory: server/coverage
           working-directory: server
+          files: clover.xml
   # build-and-deploy:
   #   runs-on: ubuntu-latest
   #   needs: ["api-coverage"]
