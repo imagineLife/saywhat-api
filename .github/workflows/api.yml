@@ -50,6 +50,7 @@ jobs:
           # files: ./coverage1.xml,./coverage2.xml # optional
           # flags: unittests # optional
           name: api-coverage # optional
+          directory: server/coverage
           working-directory: server
   # build-and-deploy:
   #   runs-on: ubuntu-latest
