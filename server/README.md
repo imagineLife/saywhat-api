@@ -10,20 +10,21 @@ This API, and this project at large, will intend to follow the [12-Factor App](h
   - [Register Account](#register-account)
   - [Forgot + Reset PW](#forgot--reset-pw)
     - [admin details later](#admin-details-later)
-  - [CRUD Text](#crud-text)
-    - [Store Text](#store-text)
-    - [Add Metadata to Text](#add-metadata-to-text)
+- [CRUD Text](#crud-text)
+  - [Store Text](#store-text)
+  - [Add Metadata to Text](#add-metadata-to-text)
   - [Logging](#logging)
   - [Optimizing For Production](#optimizing-for-production)
   - [Using With Docker](#using-with-docker)
     - [Dev](#dev)
     - [Dev with an authenticated Mongo Instance](#dev-with-an-authenticated-mongo-instance)
     - [Prod](#prod)
-- [Working With the Code](#working-with-the-code)
+  - [More Code Details](#more-code-details)
+- [Automated Workflow Details](#automated-workflow-details)
   - [Testing](#testing)
-    - [Requires MongoDB Connection](#requires-mongodb-connection)
-    - [Leverage NPM Test Scripts](#leverage-npm-test-scripts)
-- [Code Details](#code-details)
+  - [Versioning](#versioning)
+  - [Build + Deployment](#build--deployment)
+  - [Team Notification Integration](#team-notification-integration)
 # Goals
 
 ## DB Dependent
@@ -75,15 +76,15 @@ As an client with "admin" type user credentials, I can
   - [ ] user name
   - [ ] date created
 
-## CRUD Text
+# CRUD Text
 
-### Store Text
+## Store Text
 As a user I will be able to store text-blobs so that I can later view text for analysis:
 - [ ] Text blobs
   - [ ] "raw"?
   - [ ] formatted?
 
-### Add Metadata to Text
+## Add Metadata to Text
 As a user, I will be able to add "metadata", important attributes, to the text so that I can categorize the text with 
 - [ ] Orator
 - [ ] Date
@@ -113,20 +114,33 @@ One way to run this is to run from the command line `docker-compose -f dev.docke
 
 ### Prod
 
-
-
-
-# Working With the Code
-## Testing
-### Requires MongoDB Connection
-Testing the api requires a connection to a mongo database on `localhost:27017`. Assure a mongo instance is up, running, and available through `localhost:27017`.  
-One way to setup a mongo instance could be to use docker with:  
-`docker run -p 27017:27017 --rm mongo:5.0.2`.  
-### Leverage NPM Test Scripts
-With a mongo instance available, leverage a few npm scripts:  
-- **`npm run test`**: runs the tests
-- **`npm run test:coverage`**: runs the tests and prints a code-coverage result in the terminal (_configured with [jest](https://jestjs.io/) and jest's [code coverage threshold config](https://jestjs.io/docs/configuration#coveragethreshold-object)_)
-
-
-# Code Details
+## More Code Details
 See [Code Readme](CODE.md) for more details
+
+# Automated Workflow Details
+Some automated process goals here will be to:
+## Testing
+- enforce unit code-coverage test threshold to be met
+- enforce linting
+
+## Versioning
+- semantically version the api based on
+  - github issues
+  - commit messages
+  - semver practices
+
+## Build + Deployment
+- deploy based on criteria
+  - merge to "staging"? deploy to a "staging" instance of the api
+  - merge to "main" or "master"? (_figure that out_) deploy to prod
+- consider docker...
+  - bundling into a docker box & 
+  - deploying to a registry (_github registry?_)
+  - leverage those images in "staging" and "prod" environments
+- leverage webpack to minimize the code footprint for the api in staging/prod
+
+## Team Notification Integration
+- send messages to a slack channel
+  - on prod deploy
+  - on merge-to-dev...?
+  - on failed pipeline tests
